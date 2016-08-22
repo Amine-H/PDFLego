@@ -1,5 +1,8 @@
 package com.xhub.pdflego.core;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+
 public abstract class Component {
 	private Integer x;
 	private Integer y;
@@ -9,11 +12,11 @@ public abstract class Component {
 	private Integer height;
 	private Component parent;
 	
-	protected abstract void beforeRender();
+	protected abstract void beforeRender(PDDocument document, PDPage page);
 
-	public abstract void render();
+	public abstract void render(PDDocument document, PDPage page);
 
-	protected abstract void afterRender();
+	protected abstract void afterRender(PDDocument document, PDPage page);
 
 	public Integer getX() {
 		return x;

@@ -7,7 +7,7 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import com.xhub.pdflego.core.Composite;
 
-public abstract class PLRootDocument extends Composite implements PLBlock{
+public abstract class PLRootDocument extends Composite{
 	private PDDocument document = new PDDocument();
 	private PDPage page = new PDPage();
 	private PDFont font = PDType1Font.TIMES_ROMAN;
@@ -15,33 +15,31 @@ public abstract class PLRootDocument extends Composite implements PLBlock{
 	public PLRootDocument() {
 		document.addPage(page);
 	}
+	
+	public void render(){
+		this.render(document, page);
+	}
 
-	@Override
 	public PDDocument getDocument() {
 		return document;
 	}
 
-	@Override
 	public void setDocument(PDDocument document) {
 		this.document = document;
 	}
 
-	@Override
 	public PDPage getPage() {
 		return page;
 	}
 
-	@Override
 	public void setPage(PDPage page) {
 		this.page = page;
 	}
 
-	@Override
 	public PDFont getFont() {
 		return font;
 	}
 
-	@Override
 	public void setFont(PDFont font) {
 		this.font = font;
 	}

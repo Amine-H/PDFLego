@@ -12,12 +12,10 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 
 import com.xhub.pdflego.core.Component;
 
-public class PLTextBlock extends Component implements PLBlock{
+public class PLTextBlock extends Component{
 	private String text;
 	private Integer fontSize;
 	private Float leading;
-	private PDDocument document;
-	private PDPage page;
 	private PDFont font;
 	
 	/**
@@ -61,14 +59,14 @@ public class PLTextBlock extends Component implements PLBlock{
 	}
 
 	@Override
-	protected void beforeRender() {}
+	protected void beforeRender(PDDocument document, PDPage page) {}
 
 	@Override
-	public void render() {
-		beforeRender();
+	public void render(PDDocument document, PDPage page) {
+		beforeRender(document, page);
 		try {
 			//
-			PDPageContentStream contentStream = new PDPageContentStream(this.document, this.page);
+			PDPageContentStream contentStream = new PDPageContentStream(document, page);
 			contentStream.beginText();
 			contentStream.setFont(this.font, this.fontSize);
 			contentStream.setLeading(leading);
@@ -79,11 +77,11 @@ public class PLTextBlock extends Component implements PLBlock{
 		} catch (IOException e) {
 			Logger.getLogger(PLTextBlock.class).error("exeption on render", e);
 		}
-		afterRender();
+		afterRender(document, page);
 	}
 
 	@Override
-	protected void afterRender() {}
+	protected void afterRender(PDDocument document, PDPage page) {}
 
 	public String getText() {
 		return text;
@@ -91,36 +89,6 @@ public class PLTextBlock extends Component implements PLBlock{
 
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	@Override
-	public PDDocument getDocument() {
-		return document;
-	}
-
-	@Override
-	public void setDocument(PDDocument document) {
-		this.document = document;
-	}
-
-	@Override
-	public PDPage getPage() {
-		return page;
-	}
-
-	@Override
-	public void setPage(PDPage page) {
-		this.page = page;
-	}
-
-	@Override
-	public PDFont getFont() {
-		return font;
-	}
-
-	@Override
-	public void setFont(PDFont font) {
-		this.font = font;
 	}
 
 	public Integer getFontSize() {
@@ -137,5 +105,13 @@ public class PLTextBlock extends Component implements PLBlock{
 
 	public void setLeading(Float leading) {
 		this.leading = leading;
+	}
+
+	public PDFont getFont() {
+		return font;
+	}
+
+	public void setFont(PDFont font) {
+		this.font = font;
 	}
 }
