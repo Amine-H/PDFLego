@@ -50,4 +50,16 @@ public abstract class PLRootDocument extends Composite{
 	public void setFont(PDFont font) {
 		this.font = font;
 	}
+	
+	@Override
+	public Integer getHeight(){
+		Float mediaBoxHeight = page.getMediaBox().getHeight();
+		return this.height = Integer.valueOf(mediaBoxHeight.intValue());
+	}
+	
+	@Override
+	public Integer getWidth(){
+		Float mediaBoxWidth = page.getMediaBox().getWidth();
+		return this.width = Integer.valueOf(mediaBoxWidth.intValue());
+	}
 }

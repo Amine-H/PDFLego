@@ -4,13 +4,13 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 
 public abstract class Component {
-	private Integer x;
-	private Integer y;
-	private Integer offsetX;
-	private Integer offsetY;
-	private Integer width;
-	private Integer height;
-	private Component parent;
+	protected Integer x;
+	protected Integer y;
+	protected Integer offsetX;
+	protected Integer offsetY;
+	protected Integer width;
+	protected Integer height;
+	protected Component parent;
 	
 	protected abstract void beforeRender(PDDocument document, PDPage page);
 
