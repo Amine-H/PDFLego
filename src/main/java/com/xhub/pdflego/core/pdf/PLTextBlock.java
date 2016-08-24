@@ -52,10 +52,17 @@ public class PLTextBlock extends Component{
 	    // add the rest to lines
 	    lines.add(myLine);
 		//draw the list of lines
+		contentStream.setLeading(this.leading);
+		contentStream.setFont(this.font, this.fontSize);
+		contentStream.beginText();
+		contentStream.setLeading(leading);
 		for(String line: lines){
+			contentStream.newLineAtOffset(400,400);
 			contentStream.showText(line);
 			contentStream.newLine();
 		}
+		contentStream.endText();
+		contentStream.close();
 	}
 
 	@Override
@@ -65,15 +72,9 @@ public class PLTextBlock extends Component{
 	public void render(PDDocument document, PDPage page) {
 		beforeRender(document, page);
 		try {
-			//
 			PDPageContentStream contentStream = new PDPageContentStream(document, page);
-			contentStream.beginText();
-			contentStream.setFont(this.font, this.fontSize);
-			contentStream.setLeading(leading);
 			//draw the text
 			drawText(contentStream);
-			contentStream.endText();
-			contentStream.close();
 		} catch (IOException e) {
 			Logger.getLogger(PLTextBlock.class).error("exeption on render", e);
 		}
