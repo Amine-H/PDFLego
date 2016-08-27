@@ -12,16 +12,20 @@ import org.pdfclown.documents.contents.fonts.Font;
 
 import com.xhub.pdflego.core.Component;
 
+/**
+ * PLTextBlock is a text {@link Component}, it is used to draw text to a page
+ * @author Amine Hakkou
+ */
 public class PLTextBlock extends Component{
 	private String text;
-	private Integer fontSize;
-	private Float leading;
+	private Integer fontSize = 14;
+	private Float lineSpacing = 0.5f;
 	private Font font;
+	private Logger logger = Logger.getLogger(PLTextBlock.class);
 
 	/**
-	 * will draw text to a PDPageContentStream
-	 * inspired from http://stackoverflow.com/questions/19635275/how-to-generate-multiple-lines-in-pdf-using-apache-pdfbox
-	 * @param contentStream
+	 * draws text to a {@link Page}
+	 * @param page (required) page where the text will be drawn on
 	 * @throws IOException
 	 */
 	private void drawText(Page page){
@@ -32,7 +36,6 @@ public class PLTextBlock extends Component{
 	    String myLine = "";
 
 	    // get all words from the text
-	    // keep in mind that words are separated by spaces -> "Lorem ipsum!!!!:)" -> words are "Lorem" and "ipsum!!!!:)"
 	    for(String word : words) {
 	        if(!myLine.isEmpty()) {
 	            myLine += " ";
@@ -58,7 +61,7 @@ public class PLTextBlock extends Component{
 		composer.setFont(font, fontSize);
 		for(String line: lines){
 			composer.showText(line, new Point2D.Double(x, y));
-			y += fontSize + 0.5f;
+			y += fontSize + this.lineSpacing;
 		}
 		composer.flush();
 	}
@@ -71,6 +74,7 @@ public class PLTextBlock extends Component{
 		beforeRender(page);
 		drawText(page);
 		afterRender(page);
+		this.logger.info("Text rendered");
 	}
 
 	@Override
@@ -92,19 +96,19 @@ public class PLTextBlock extends Component{
 		this.fontSize = fontSize;
 	}
 
-	public Float getLeading() {
-		return leading;
-	}
-
-	public void setLeading(Float leading) {
-		this.leading = leading;
-	}
-
 	public Font getFont() {
 		return font;
 	}
 
 	public void setFont(Font font) {
 		this.font = font;
+	}
+
+	public Float getLineSpacing() {
+		return lineSpacing;
+	}
+
+	public void setLineSpacing(Float lineSpacing) {
+		this.lineSpacing = lineSpacing;
 	}
 }

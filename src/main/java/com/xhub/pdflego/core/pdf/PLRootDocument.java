@@ -11,6 +11,11 @@ import org.pdfclown.files.File;
 import org.pdfclown.files.SerializationModeEnum;
 import com.xhub.pdflego.core.Composite;
 
+/**
+ * PLRootDocument is the root {@link Composite},
+ * it will render its sub Components and actually write it to a file
+ * @author Amine Hakkou
+ */
 public abstract class PLRootDocument extends Composite{
 	private Document document;
 	private Page page;
@@ -25,25 +30,27 @@ public abstract class PLRootDocument extends Composite{
 		document = new File().getDocument();
 		page = new Page(document, size);
 		document.getPages().add(page);
-		font = new StandardType1Font(document, StandardType1Font.FamilyEnum.Times, true, false);
+		font = new StandardType1Font(document, StandardType1Font.FamilyEnum.Times, false, false);
 		x = 0;
 		y = 0;
-		logger.info("PLRootDocument constructed, font=" + font.getName() +
+		this.logger.info("PLRootDocument constructed, font=" + font.getName() +
 					", page.height=" + page.getSize().getHeight() +
 					", page.width=" + page.getSize().getWidth());
 	}
 	
 	public void save(String filePath){
 		try {
-			this.render(page);
+			this.render();
 			document.getFile().save(filePath, SerializationModeEnum.Standard);
+			this.logger.info("Document saved to " + filePath);
 		} catch (IOException e) {
-			logger.error("Exception occured while saving to " + filePath, e);
+			this.logger.error("Exception occured while saving to " + filePath, e);
 		}
 	}
 	
 	protected void render(){
 		this.render(this.page);
+		this.logger.info("Document rendered");
 	}
 
 	public Document getDocument() {

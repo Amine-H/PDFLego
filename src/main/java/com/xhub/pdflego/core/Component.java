@@ -2,12 +2,17 @@ package com.xhub.pdflego.core;
 import org.apache.log4j.Logger;
 import org.pdfclown.documents.Page;
 
+/**
+ * Component has the attributes of a rectangle
+ * @author Amine Hakkou
+ */
 public abstract class Component {
 	protected Integer x;
 	protected Integer y;
 	protected Integer width;
 	protected Integer height;
 	protected Component parent;
+	private Logger logger = Logger.getLogger(Component.class);
 
 	protected abstract void beforeRender(Page page);
 
@@ -27,7 +32,7 @@ public abstract class Component {
 		if((this.parent != null) &&
 				(x + this.width > parent.getX() + parent.getWidth())){
 				ComponentOverflow e = new ComponentOverflow();
-				Logger.getLogger(Component.class).error(e.getMessage(), e);
+				this.logger.error(e.getMessage(), e);
 				throw e;
 			}
 		this.x = x;
@@ -44,7 +49,9 @@ public abstract class Component {
 	public void setY(Integer y) {
 		if((this.parent != null) &&
 			(y + this.height > parent.getY() + parent.getHeight())){
-			throw new ComponentOverflow();
+			ComponentOverflow e = new ComponentOverflow();
+			this.logger.error(e.getMessage(), e);
+			throw e;
 		}
 		this.y = y;
 	}
