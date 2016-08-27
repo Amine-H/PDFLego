@@ -31,6 +31,7 @@ public class PLTextBlock extends Component{
 	private void drawText(Page page){
 		String text = new String(this.text);
 		Integer blockWidth = this.getWidth();
+		Integer blockHeight = this.getHeight();
 		List<String> lines = new ArrayList<String>();
 		String[] words = text.split(" ");
 	    String myLine = "";
@@ -57,11 +58,18 @@ public class PLTextBlock extends Component{
 		//draw the list of lines
 		Float x = Float.valueOf(this.getX());
 		Float y = Float.valueOf(this.getY());
+		Float textHeight = 0f;
 		PrimitiveComposer composer = new PrimitiveComposer(page);
 		composer.setFont(this.font, this.fontSize);
 		for(String line: lines){
+			Float lineHeight = fontSize + this.lineSpacing;
+			if(textHeight + lineHeight > this.getHeight()){
+				this.logger.warn("text is bigger than the Component's Height, ignoring the rest of the text");
+				break;
+			}
 			composer.showText(line, new Point2D.Double(x, y));
-			y += fontSize + this.lineSpacing;
+			textHeight += lineHeight;
+			y += lineHeight;
 		}
 		composer.flush();
 	}
