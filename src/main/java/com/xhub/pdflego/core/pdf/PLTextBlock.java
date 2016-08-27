@@ -63,7 +63,7 @@ public class PLTextBlock extends Component{
 		composer.setFont(this.font, this.fontSize);
 		for(String line: lines){
 			Float lineHeight = fontSize + this.lineSpacing;
-			if(textHeight + lineHeight > this.getHeight()){
+			if(textHeight + lineHeight > blockHeight){
 				this.logger.warn("text is bigger than the Component's Height, ignoring the rest of the text");
 				break;
 			}

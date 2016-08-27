@@ -1,6 +1,7 @@
 package com.xhub.pdflego.core.pdf;
 import java.awt.geom.Dimension2D;
 import java.io.IOException;
+
 import org.apache.log4j.Logger;
 import org.pdfclown.documents.Document;
 import org.pdfclown.documents.Page;
@@ -9,6 +10,8 @@ import org.pdfclown.documents.contents.fonts.Font;
 import org.pdfclown.documents.contents.fonts.StandardType1Font;
 import org.pdfclown.files.File;
 import org.pdfclown.files.SerializationModeEnum;
+
+import com.xhub.pdflego.core.Component;
 import com.xhub.pdflego.core.Composite;
 
 /**
@@ -16,10 +19,11 @@ import com.xhub.pdflego.core.Composite;
  * it will render its sub Components and actually write it to a file
  * @author Amine Hakkou
  */
-public abstract class PLRootDocument extends Composite{
+public class PLRootDocument extends Composite{
 	private Document document;
 	private Page page;
 	private Font font;
+	private Integer fontSize = 14; 
 	private Logger logger = Logger.getLogger(PLRootDocument.class);
 
 	public PLRootDocument() {
@@ -76,7 +80,15 @@ public abstract class PLRootDocument extends Composite{
 	public void setFont(Font font) {
 		this.font = font;
 	}
-	
+
+	public Integer getFontSize() {
+		return fontSize;
+	}
+
+	public void setFontSize(Integer fontSize) {
+		this.fontSize = fontSize;
+	}
+
 	@Override
 	public Integer getX(){
 		return this.x;
@@ -110,4 +122,25 @@ public abstract class PLRootDocument extends Composite{
 	
 	@Override
 	public void setWidth(Integer width){}
+
+	@Override
+	public void postAdd(Component component) {
+		if(component.getInheritFromParent()){
+			if(component instanceof PLTextBlock){
+				PLTextBlock ref = (PLTextBlock) component;
+				ref.setFont(this.getFont());
+				ref.setFontSize(this.getFontSize());
+				this.logger.info("child " + component + " inherited some attribute values from parent " + this);
+			}
+		}
+	}
+
+	@Override
+	public void preRemove(Component component) {}
+
+	@Override
+	protected void beforeRender(Page page) {}
+
+	@Override
+	protected void afterRender(Page page) {}
 }

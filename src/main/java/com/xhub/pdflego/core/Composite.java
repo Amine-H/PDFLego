@@ -25,11 +25,17 @@ public abstract class Composite extends Component{
 
 	public void add(Component component){
 		if(childComponents.add(component)){
+			component.setParent(this);
 			this.logger.info(this + " added " + component + " as child component");
+			postAdd(component);
 		}
 	}
+	
+	public abstract void postAdd(Component component);
+	public abstract void preRemove(Component component);
 
 	public void remove(Component component){
+		preRemove(component);
 		if(childComponents.remove(component)){
 			this.logger.info(this + " removed " + component + " from its child component");
 		}

@@ -7,11 +7,12 @@ import org.pdfclown.documents.Page;
  * @author Amine Hakkou
  */
 public abstract class Component {
-	protected Integer x;
-	protected Integer y;
+	protected Integer x = 0;
+	protected Integer y = 0;
 	protected Integer width;
 	protected Integer height;
 	protected Component parent;
+	private Boolean inheritFromParent = false;
 	private Logger logger = Logger.getLogger(Component.class);
 
 	protected abstract void beforeRender(Page page);
@@ -78,5 +79,13 @@ public abstract class Component {
 
 	public void setParent(Component parent) {
 		this.parent = parent;
+	}
+
+	public Boolean getInheritFromParent() {
+		return inheritFromParent;
+	}
+
+	public void setInheritFromParent(Boolean inheritFromParent) {
+		this.inheritFromParent = inheritFromParent;
 	}
 }
