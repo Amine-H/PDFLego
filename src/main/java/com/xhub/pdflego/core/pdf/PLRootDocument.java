@@ -84,7 +84,7 @@ public abstract class PLRootDocument extends Composite{
 	
 	@Override
 	public Integer getY(){
-		return this.getHeight() - this.y;
+		return this.y;
 	}
 	
 	@Override

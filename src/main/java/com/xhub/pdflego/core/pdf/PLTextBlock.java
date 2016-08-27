@@ -56,9 +56,9 @@ public class PLTextBlock extends Component{
 	    lines.add(myLine);
 		//draw the list of lines
 		Float x = Float.valueOf(this.getX());
-		Float y = 0f;
+		Float y = Float.valueOf(this.getY());
 		PrimitiveComposer composer = new PrimitiveComposer(page);
-		composer.setFont(font, fontSize);
+		composer.setFont(this.font, this.fontSize);
 		for(String line: lines){
 			composer.showText(line, new Point2D.Double(x, y));
 			y += fontSize + this.lineSpacing;
