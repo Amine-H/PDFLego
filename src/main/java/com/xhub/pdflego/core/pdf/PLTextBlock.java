@@ -67,7 +67,7 @@ public class PLTextBlock extends Component{
 				this.logger.warn("text is bigger than the Component's Height, ignoring the rest of the text");
 				break;
 			}
-			composer.showText(line, new Point2D.Double(x, y));
+			composer.showText(line, new Point2D.Float(x, y));
 			textHeight += lineHeight;
 			y += lineHeight;
 		}
