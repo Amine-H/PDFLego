@@ -2,26 +2,24 @@ package com.xhub.pdflego.core;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
+import org.pdfclown.documents.Page;
 
 public abstract class Composite extends Component{
 	private List<Component> childComponents = new ArrayList<>();
-	
+
 	@Override
-	public void render(PDDocument document, PDPage page){
-		beforeRender(document, page);
+	protected void render(Page page){
+		beforeRender(page);
 		for(Component component: childComponents){
-			component.render(document, page);
+			component.render(page);
 		}
-		afterRender(document, page);
+		afterRender(page);
 	}
-	
+
 	public void add(Component component){
 		childComponents.add(component);
 	}
-	
+
 	public void remove(Component component){
 		childComponents.remove(component);
 	}

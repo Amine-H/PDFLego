@@ -13,9 +13,11 @@
   
   <dependencies>
 	<dependency>
-	  <groupId>org.apache.pdfbox</groupId>
-	  <artifactId>pdfbox</artifactId>
-	  <version>2.0.0</version>
+	  <groupId>org.pdfclown</groupId>
+	  <artifactId>pdfclown</artifactId>
+	  <version>0.1.2</version>
+	  <scope>system</scope>
+	  <systemPath>${project.basedir}/src/main/resources/pdfclown-0.1.2.jar</systemPath>
 	</dependency>
 	<dependency>
 	    <groupId>org.knowm.xchart</groupId>

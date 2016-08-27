@@ -1,14 +1,14 @@
 package com.xhub.pdflego.core.pdf;
 
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.pdfclown.documents.Page;
+import org.pdfclown.documents.contents.composition.PrimitiveComposer;
+import org.pdfclown.documents.contents.fonts.Font;
 
 import com.xhub.pdflego.core.Component;
 
@@ -16,17 +16,17 @@ public class PLTextBlock extends Component{
 	private String text;
 	private Integer fontSize;
 	private Float leading;
-	private PDFont font;
-	
+	private Font font;
+
 	/**
 	 * will draw text to a PDPageContentStream
 	 * inspired from http://stackoverflow.com/questions/19635275/how-to-generate-multiple-lines-in-pdf-using-apache-pdfbox
 	 * @param contentStream
 	 * @throws IOException
 	 */
-	private void drawText(PDPageContentStream contentStream) throws IOException{
+	private void drawText(Page page){
 		String text = new String(this.text);
-		Integer parentWidth = this.getParent().getWidth();
+		Integer blockWidth = this.getWidth();
 		List<String> lines = new ArrayList<String>();
 		String[] words = text.split(" ");
 	    String myLine = "";
@@ -38,8 +38,8 @@ public class PLTextBlock extends Component{
 	            myLine += " ";
 	        }
 	        // test the width of the current line + the current word
-	        int size = (int) (fontSize * font.getStringWidth(myLine + word) / 1000);
-	        if(size > parentWidth) {
+	        int textWidth = (int) (fontSize * font.getWidth(myLine + word) / 1000);
+	        if(textWidth > blockWidth) {
 	            // if the line would be too long with the current word, add the line without the current word
 	            lines.add(myLine);
 	            // and start a new line with the current word
@@ -52,37 +52,29 @@ public class PLTextBlock extends Component{
 	    // add the rest to lines
 	    lines.add(myLine);
 		//draw the list of lines
-		contentStream.setLeading(this.leading);
-		contentStream.setFont(this.font, this.fontSize);
-		contentStream.beginText();
-		contentStream.setLeading(leading);
+		Float x = Float.valueOf(this.getX());
+		Float y = 0f;
+		PrimitiveComposer composer = new PrimitiveComposer(page);
+		composer.setFont(font, fontSize);
 		for(String line: lines){
-			contentStream.newLineAtOffset(400,400);
-			contentStream.showText(line);
-			contentStream.newLine();
+			composer.showText(line, new Point2D.Double(x, y));
+			y += fontSize + 0.5f;
 		}
-		contentStream.endText();
-		contentStream.close();
+		composer.flush();
 	}
 
 	@Override
-	protected void beforeRender(PDDocument document, PDPage page) {}
+	protected void beforeRender(Page page) {}
 
 	@Override
-	public void render(PDDocument document, PDPage page) {
-		beforeRender(document, page);
-		try {
-			PDPageContentStream contentStream = new PDPageContentStream(document, page);
-			//draw the text
-			drawText(contentStream);
-		} catch (IOException e) {
-			Logger.getLogger(PLTextBlock.class).error("exeption on render", e);
-		}
-		afterRender(document, page);
+	public void render(Page page) {
+		beforeRender(page);
+		drawText(page);
+		afterRender(page);
 	}
 
 	@Override
-	protected void afterRender(PDDocument document, PDPage page) {}
+	protected void afterRender(Page page) {}
 
 	public String getText() {
 		return text;
@@ -108,11 +100,11 @@ public class PLTextBlock extends Component{
 		this.leading = leading;
 	}
 
-	public PDFont getFont() {
+	public Font getFont() {
 		return font;
 	}
 
-	public void setFont(PDFont font) {
+	public void setFont(Font font) {
 		this.font = font;
 	}
 }

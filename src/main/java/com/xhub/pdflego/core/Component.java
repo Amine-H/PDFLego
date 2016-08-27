@@ -1,53 +1,52 @@
 package com.xhub.pdflego.core;
-
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.log4j.Logger;
+import org.pdfclown.documents.Page;
 
 public abstract class Component {
 	protected Integer x;
 	protected Integer y;
-	protected Integer offsetX;
-	protected Integer offsetY;
 	protected Integer width;
 	protected Integer height;
 	protected Component parent;
-	
-	protected abstract void beforeRender(PDDocument document, PDPage page);
 
-	public abstract void render(PDDocument document, PDPage page);
+	protected abstract void beforeRender(Page page);
 
-	protected abstract void afterRender(PDDocument document, PDPage page);
+	protected abstract void render(Page page);
+
+	protected abstract void afterRender(Page page);
 
 	public Integer getX() {
-		return x;
+		if(this.parent != null){
+			return this.parent.getX() + this.x;
+		}else{
+			return this.x;
+		}
 	}
 
 	public void setX(Integer x) {
+		if((this.parent != null) &&
+				(x + this.width > parent.getX() + parent.getWidth())){
+				ComponentOverflow e = new ComponentOverflow();
+				Logger.getLogger(Component.class).error(e.getMessage(), e);
+				throw e;
+			}
 		this.x = x;
 	}
 
 	public Integer getY() {
-		return y;
+		if(this.parent != null){
+			return this.parent.getY() + this.y;
+		}else{
+			return this.y;
+		}
 	}
 
 	public void setY(Integer y) {
+		if((this.parent != null) &&
+			(y + this.height > parent.getY() + parent.getHeight())){
+			throw new ComponentOverflow();
+		}
 		this.y = y;
-	}
-
-	public Integer getOffsetX() {
-		return offsetX;
-	}
-
-	public void setOffsetX(Integer offsetX) {
-		this.offsetX = offsetX;
-	}
-
-	public Integer getOffsetY() {
-		return offsetY;
-	}
-
-	public void setOffsetY(Integer offsetY) {
-		this.offsetY = offsetY;
 	}
 
 	public Integer getWidth() {
@@ -66,11 +65,9 @@ public abstract class Component {
 		this.height = height;
 	}
 
-
 	public Component getParent() {
 		return parent;
 	}
-
 
 	public void setParent(Component parent) {
 		this.parent = parent;

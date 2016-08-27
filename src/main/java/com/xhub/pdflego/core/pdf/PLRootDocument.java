@@ -1,65 +1,106 @@
 package com.xhub.pdflego.core.pdf;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-
+import java.awt.geom.Dimension2D;
+import java.io.IOException;
+import org.apache.log4j.Logger;
+import org.pdfclown.documents.Document;
+import org.pdfclown.documents.Page;
+import org.pdfclown.documents.PageFormat;
+import org.pdfclown.documents.contents.fonts.Font;
+import org.pdfclown.documents.contents.fonts.StandardType1Font;
+import org.pdfclown.files.File;
+import org.pdfclown.files.SerializationModeEnum;
 import com.xhub.pdflego.core.Composite;
 
 public abstract class PLRootDocument extends Composite{
-	private PDDocument document;
-	private PDPage page;
-	private PDFont font;
+	private Document document;
+	private Page page;
+	private Font font;
+	private Logger logger = Logger.getLogger(PLRootDocument.class);
 
 	public PLRootDocument() {
-		this(PDRectangle.A4);
+		this(PageFormat.getSize());
 	}
 	
-	public PLRootDocument(PDRectangle format){
-		document = new PDDocument();
-		page = new PDPage(format);
-		document.addPage(page);
-		font = PDType1Font.TIMES_ROMAN;
+	public PLRootDocument(Dimension2D size){
+		document = new File().getDocument();
+		page = new Page(document, size);
+		document.getPages().add(page);
+		font = new StandardType1Font(document, StandardType1Font.FamilyEnum.Times, true, false);
+		x = 0;
+		y = 0;
+		logger.info("PLRootDocument constructed, font=" + font.getName() +
+					", page.height=" + page.getSize().getHeight() +
+					", page.width=" + page.getSize().getWidth());
 	}
 	
-	public void render(){
-		this.render(document, page);
+	public void save(String filePath){
+		try {
+			this.render(page);
+			document.getFile().save(filePath, SerializationModeEnum.Standard);
+		} catch (IOException e) {
+			logger.error("Exception occured while saving to " + filePath, e);
+		}
+	}
+	
+	protected void render(){
+		this.render(this.page);
 	}
 
-	public PDDocument getDocument() {
+	public Document getDocument() {
 		return document;
 	}
 
-	public void setDocument(PDDocument document) {
+	public void setDocument(Document document) {
 		this.document = document;
 	}
 
-	public PDPage getPage() {
+	public Page getPage() {
 		return page;
 	}
 
-	public void setPage(PDPage page) {
+	public void setPage(Page page) {
 		this.page = page;
 	}
 
-	public PDFont getFont() {
+	public Font getFont() {
 		return font;
 	}
 
-	public void setFont(PDFont font) {
+	public void setFont(Font font) {
 		this.font = font;
 	}
 	
 	@Override
+	public Integer getX(){
+		return this.x;
+	}
+	
+	@Override
+	public Integer getY(){
+		return this.getHeight() - this.y;
+	}
+	
+	@Override
 	public Integer getHeight(){
-		Float mediaBoxHeight = page.getMediaBox().getHeight();
-		return this.height = Integer.valueOf(mediaBoxHeight.intValue());
+		Double pageHeight = page.getSize().getHeight();
+		return this.height = Integer.valueOf(pageHeight.intValue());
 	}
 	
 	@Override
 	public Integer getWidth(){
-		Float mediaBoxWidth = page.getMediaBox().getWidth();
-		return this.width = Integer.valueOf(mediaBoxWidth.intValue());
+		Double pageWidth = page.getSize().getWidth();
+		return this.width = Integer.valueOf(pageWidth.intValue());
 	}
+
+	@Override
+	public void setX(Integer x){}
+	
+	@Override
+	public void setY(Integer y){}
+	
+	@Override
+	public void setHeight(Integer height){}
+	
+	@Override
+	public void setWidth(Integer width){}
 }
