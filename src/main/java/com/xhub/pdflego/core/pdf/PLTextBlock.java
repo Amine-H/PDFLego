@@ -23,6 +23,10 @@ public class PLTextBlock extends Component{
 	private Font font;
 	private Logger logger = Logger.getLogger(PLTextBlock.class);
 
+	public PLTextBlock(Component parent){
+		this.parent = parent;
+	}
+
 	/**
 	 * draws text to a {@link Page}
 	 * @param page (required) page where the text will be drawn on

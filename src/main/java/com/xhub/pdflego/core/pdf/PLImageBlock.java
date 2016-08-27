@@ -16,6 +16,10 @@ import com.xhub.pdflego.core.Component;
 public class PLImageBlock extends Component{
 	private Image image;
 	private Logger logger = Logger.getLogger(PLImageBlock.class);
+	
+	public PLImageBlock(Component parent){
+		this.parent = parent;
+	}
 
 	@Override
 	protected void render(Page page) {

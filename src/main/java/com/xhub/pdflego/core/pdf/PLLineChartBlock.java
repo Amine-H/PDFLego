@@ -23,6 +23,10 @@ public class PLLineChartBlock extends Component{
 	private double[] yData;
 	private Logger logger = Logger.getLogger(PLLineChartBlock.class);
 
+	public PLLineChartBlock(Component parent){
+		this.parent = parent;
+	}
+
 	@Override
 	protected void beforeRender(Page page) {}
 
