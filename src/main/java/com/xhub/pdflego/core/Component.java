@@ -1,6 +1,6 @@
 package com.xhub.pdflego.core;
+import com.xhub.pdflego.exception.ComponentOverflowException;
 import org.apache.log4j.Logger;
-import org.pdfclown.documents.Page;
 
 /**
  * Component has the attributes of a rectangle
@@ -15,12 +15,6 @@ public abstract class Component {
 	private Boolean inheritFromParent = false;
 	private Logger logger = Logger.getLogger(Component.class);
 
-	protected abstract void beforeRender(Page page);
-
-	protected abstract void render(Page page);
-
-	protected abstract void afterRender(Page page);
-
 	public Integer getX() {
 		if(this.parent != null){
 			return this.parent.getX() + this.x;
@@ -32,7 +26,7 @@ public abstract class Component {
 	public void setX(Integer x) {
 		if((this.parent != null) &&
 				(x + this.width > parent.getX() + parent.getWidth())){
-				ComponentOverflow e = new ComponentOverflow();
+				ComponentOverflowException e = new ComponentOverflowException();
 				this.logger.error(e.getMessage(), e);
 				throw e;
 			}
@@ -50,7 +44,7 @@ public abstract class Component {
 	public void setY(Integer y) {
 		if((this.parent != null) &&
 			(y + this.height > parent.getY() + parent.getHeight())){
-			ComponentOverflow e = new ComponentOverflow();
+			ComponentOverflowException e = new ComponentOverflowException();
 			this.logger.error(e.getMessage(), e);
 			throw e;
 		}
