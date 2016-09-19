@@ -20,8 +20,9 @@ public abstract class DocumentRenderer<T> {
             compositeBlock.getChildComponents().forEach(component -> this.renderBlock(component));
         }
     }
+    public abstract void renderDefaultBlock(Component component);
     public abstract void renderBlock(Component component);
-    public abstract void renderBlock(PLImageBlock imageBlock);
-    public abstract void renderBlock(PLLineChartBlock lineChartBlock);
-    public abstract void renderBlock(PLTextBlock textBlock);
+    public abstract void renderImageBlock(PLImageBlock imageBlock);
+    public abstract void renderLineChartBlock(PLLineChartBlock lineChartBlock);
+    public abstract void renderTextBlock(PLTextBlock textBlock);
 }

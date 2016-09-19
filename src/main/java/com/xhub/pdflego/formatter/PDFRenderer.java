@@ -21,9 +21,7 @@ import com.xhub.pdflego.core.Composite;
  */
 public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
     private Logger logger = Logger.getLogger(PDFRenderer.class);
-    private ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    private PdfWriter pdfWriter = new PdfWriter(outputStream);
-    private PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+    private PageSize pageSize;
     private Document document;
 
     public PDFRenderer(Composite rootComponent){
@@ -32,26 +30,47 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
 
     public PDFRenderer(Composite rootComponent, PageSize pageSize){
         super(rootComponent);
-        document = new Document(pdfDocument, pageSize);
+        this.pageSize = pageSize;
     }
 
     @Override
     public void renderBlock(Component component) {
+        logger.info(component + " started rendering");
+        this.renderDefaultBlock(component);
+        //render text block
+        if(component.getClass().equals(PLTextBlock.class)){
+            this.renderTextBlock((PLTextBlock) component);
+        }
+        //render image block
+        else if(component.getClass().equals(PLImageBlock.class)){
+            this.renderImageBlock((PLImageBlock) component);
+        }
+        //render lineChart block
+        else if(component.getClass().equals(PLLineChartBlock.class)){
+            this.renderLineChartBlock((PLLineChartBlock) component);
+        }else{
+            logger.warn("Unhandled type");
+        }
+        logger.info(component + " finished rendering");
+    }
+
+    @Override
+    public void renderDefaultBlock(Component component) {
 
     }
 
     @Override
-    public void renderBlock(PLImageBlock imageBlock) {
+    public void renderImageBlock(PLImageBlock imageBlock) {
 
     }
 
     @Override
-    public void renderBlock(PLLineChartBlock lineChartBlock) {
+    public void renderLineChartBlock(PLLineChartBlock lineChartBlock) {
 
     }
 
     @Override
-    public void renderBlock(PLTextBlock textBlock) {
+    public void renderTextBlock(PLTextBlock textBlock) {
         String text = new String(textBlock.getText());
         Integer blockWidth = textBlock.getWidth();
         Integer blockHeight = textBlock.getHeight();
@@ -100,9 +119,14 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
 
     @Override
     public ByteArrayOutputStream render() {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PdfWriter pdfWriter = new PdfWriter(outputStream);
+        PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+        document = new Document(pdfDocument, pageSize);
         for(Component component: rootComponent.getChildComponents()){
             this.renderBlock(component);
         }
+        document.close();
         return outputStream;
     }
 }
