@@ -71,49 +71,54 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
 
     @Override
     public void renderTextBlock(PLTextBlock textBlock) {
-        String text = new String(textBlock.getText());
-        Integer blockWidth = textBlock.getWidth();
-        Integer blockHeight = textBlock.getHeight();
-        List<String> lines = new ArrayList<>();
-        String[] words = text.split(" ");
-        String myLine = "";
+        if(document != null){
+            String text = new String(textBlock.getText());
+            Integer blockWidth = textBlock.getWidth();
+            Integer blockHeight = textBlock.getHeight();
+            List<String> lines = new ArrayList<>();
+            String[] words = text.split(" ");
+            String myLine = "";
 
-        // get all words from the text
-        for(String word : words) {
-            if(!myLine.isEmpty()) {
-                myLine += " ";
+            // get all words from the text
+            for(String word : words) {
+                if(!myLine.isEmpty()) {
+                    myLine += " ";
+                }
+                // test the width of the current line + the current word
+                int textWidth = (int) (textBlock.getFontSize() * textBlock.getFont().getWidth(myLine + word) / 1000);
+                if(textWidth > blockWidth) {
+                    // if the line would be too long with the current word, add the line without the current word
+                    lines.add(myLine);
+                    // and start a new line with the current word
+                    myLine = word;
+                } else {
+                    // if the current line + the current word would fit, add the current word to the line
+                    myLine += word;
+                }
             }
-            // test the width of the current line + the current word
-            int textWidth = (int) (textBlock.getFontSize() * textBlock.getFont().getWidth(myLine + word) / 1000);
-            if(textWidth > blockWidth) {
-                // if the line would be too long with the current word, add the line without the current word
-                lines.add(myLine);
-                // and start a new line with the current word
-                myLine = word;
-            } else {
-                // if the current line + the current word would fit, add the current word to the line
-                myLine += word;
-            }
-        }
-        // add the rest to lines
-        lines.add(myLine);
-        //draw the list of lines
-        float x = Float.valueOf(textBlock.getX());
-        float y = Float.valueOf(textBlock.getY());
-        float textHeight = 0f;
+            // add the rest to lines
+            lines.add(myLine);
+            //draw the list of lines
+            float x = Float.valueOf(textBlock.getX());
+            float y = Float.valueOf(textBlock.getY());
+            float textHeight = 0f;
 
-        for(String line: lines){
-            float lineHeight = textBlock.getFontSize() + textBlock.getLineSpacing();
-            if(textHeight + lineHeight > blockHeight){
-                this.logger.warn("text is bigger than the Component's Height, ignoring the rest of the text");
-                break;
+            for(String line: lines){
+                float lineHeight = textBlock.getFontSize() + textBlock.getLineSpacing();
+                if(textHeight + lineHeight > blockHeight){
+                    this.logger.warn("text is bigger than the Component's Height, ignoring the rest of the text");
+                    break;
+                }
+                document.setFixedPosition(x, y, UnitValue.POINT);
+                document.add(new Paragraph(line)
+                        .setFixedLeading(textBlock.getLineSpacing())
+                        .setFont(textBlock.getFont()))
+                        .setFontSize(textBlock.getFontSize());
+                textHeight += lineHeight;
+                y += lineHeight;
             }
-            document.setFixedPosition(x, y, UnitValue.POINT);
-            document.add(new Paragraph(line)
-                    .setFont(textBlock.getFont()))
-                    .setFontSize(textBlock.getFontSize());
-            textHeight += lineHeight;
-            y += lineHeight;
+        }else{
+            logger.warn("document not set, doing nothing");
         }
     }
 
@@ -123,6 +128,7 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
         PdfWriter pdfWriter = new PdfWriter(outputStream);
         PdfDocument pdfDocument = new PdfDocument(pdfWriter);
         document = new Document(pdfDocument, pageSize);
+        document.setMargins(0, 0, 0, 0);
         for(Component component: rootComponent.getChildComponents()){
             this.renderBlock(component);
         }
