@@ -27,6 +27,7 @@ public abstract class Component {
 	}
 
 	public void setX(Integer x) {
+		logger.info(parent);
 		if((this.parent != null) && (x + this.width > parent.getX() + parent.getWidth())){
 			ComponentOverflowException e = new ComponentOverflowException();
 			this.logger.error(e.getMessage(), e);

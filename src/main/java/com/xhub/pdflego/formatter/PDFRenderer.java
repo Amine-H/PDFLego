@@ -6,6 +6,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.itextpdf.io.image.ImageData;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
@@ -98,10 +100,13 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
 
     @Override
     public void renderImageBlock(PLImageBlock imageBlock) {
-        Image image = new Image(imageBlock.getImage());
-        image.setWidth(imageBlock.getWidth());
-        image.setHeight(imageBlock.getHeight());
-        currentBlock.add(image);
+        ImageData imageData = imageBlock.getImage();
+        if(imageData != null){
+            Image image = new Image(imageBlock.getImage());
+            currentBlock.add(image);
+        }else{
+            logger.warn(imageBlock + " doesn't have any data, object not drawn");
+        }
     }
 
     @Override
