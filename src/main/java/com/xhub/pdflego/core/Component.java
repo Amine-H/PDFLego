@@ -14,6 +14,10 @@ public abstract class Component {
 	protected Component parent;
 	private Logger logger = Logger.getLogger(Component.class);
 
+	public Component(Component parent){
+		this.parent = parent;
+	}
+
 	public Integer getX() {
 		if(this.parent != null){
 			return this.parent.getX() + this.x;
@@ -23,12 +27,10 @@ public abstract class Component {
 	}
 
 	public void setX(Integer x) {
-		if((this.parent != null) &&
-				(x + this.width > parent.getX() + parent.getWidth())){
-				ComponentOverflowException e = new ComponentOverflowException();
-				this.logger.error(e.getMessage(), e);
-				throw e;
-			}
+		if((this.parent != null) && (x + this.width > parent.getX() + parent.getWidth())){
+			ComponentOverflowException e = new ComponentOverflowException();
+			this.logger.error(e.getMessage(), e);
+		}
 		this.x = x;
 	}
 
@@ -45,7 +47,6 @@ public abstract class Component {
 			(y + this.height > parent.getY() + parent.getHeight())){
 			ComponentOverflowException e = new ComponentOverflowException();
 			this.logger.error(e.getMessage(), e);
-			throw e;
 		}
 		this.y = y;
 	}

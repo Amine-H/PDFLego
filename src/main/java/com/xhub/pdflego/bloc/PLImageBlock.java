@@ -16,15 +16,15 @@ public class PLImageBlock extends Component{
 	private Logger logger = Logger.getLogger(PLImageBlock.class);
 	
 	public PLImageBlock(Component parent){
-		this.parent = parent;
+		super(parent);
 	}
 
 	public static PLImageBlock create(Component component){
 		PLImageBlock imageBlock = new PLImageBlock(component.getParent());
-		imageBlock.setX(component.getX());
-		imageBlock.setY(component.getY());
 		imageBlock.setHeight(component.getHeight());
 		imageBlock.setWidth(component.getWidth());
+		imageBlock.setX(component.getX());
+		imageBlock.setY(component.getY());
 		return imageBlock;
 	}
 

@@ -15,7 +15,7 @@ public class PLTextBlock extends Component{
 	private Logger logger = Logger.getLogger(PLTextBlock.class);
 
 	public PLTextBlock(Component parent){
-		this.parent = parent;
+		super(parent);
 	}
 
 	public String getText() {

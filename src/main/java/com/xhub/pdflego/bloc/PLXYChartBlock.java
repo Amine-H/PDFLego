@@ -12,7 +12,7 @@ public class PLXYChartBlock extends Component {
 	private Logger logger = Logger.getLogger(PLXYChartBlock.class);
 
 	public PLXYChartBlock(Component parent){
-		this.parent = parent;
+		super(parent);
 	}
 
 	public String getChartName() {
@@ -43,7 +43,7 @@ public class PLXYChartBlock extends Component {
 		return data;
 	}
 
-	public void setData(DataTable[] data) {
+	public void setData(DataTable... data) {
 		this.data = data;
 	}
 }

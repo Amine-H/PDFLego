@@ -25,6 +25,8 @@ import com.xhub.pdflego.bloc.PLTextBlock;
 import com.xhub.pdflego.core.Component;
 import com.xhub.pdflego.core.Composite;
 import com.itextpdf.layout.Canvas;
+import com.itextpdf.layout.element.Image;
+
 
 
 /**
@@ -96,7 +98,10 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
 
     @Override
     public void renderImageBlock(PLImageBlock imageBlock) {
-
+        Image image = new Image(imageBlock.getImage());
+        image.setWidth(imageBlock.getWidth());
+        image.setHeight(imageBlock.getHeight());
+        currentBlock.add(image);
     }
 
     @Override
