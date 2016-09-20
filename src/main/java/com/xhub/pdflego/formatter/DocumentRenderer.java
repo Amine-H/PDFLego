@@ -23,6 +23,6 @@ public abstract class DocumentRenderer<T> {
     public abstract void renderDefaultBlock(Component component);
     public abstract void renderBlock(Component component);
     public abstract void renderImageBlock(PLImageBlock imageBlock);
-    public abstract void renderLineChartBlock(PLLineChartBlock lineChartBlock);
+    public abstract void renderXYChartBlock(PLXYChartBlock lineChartBlock);
     public abstract void renderTextBlock(PLTextBlock textBlock);
 }

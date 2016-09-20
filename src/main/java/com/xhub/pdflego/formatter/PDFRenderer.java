@@ -1,11 +1,18 @@
 package com.xhub.pdflego.formatter;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import de.erichseifert.gral.graphics.DrawingContext;
+import de.erichseifert.gral.io.plots.DrawableWriter;
+import de.erichseifert.gral.io.plots.DrawableWriterFactory;
+import de.erichseifert.gral.plots.XYPlot;
 import org.apache.log4j.Logger;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -94,8 +101,27 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
 
     @Override
     public void renderXYChartBlock(PLXYChartBlock lineChartBlock) {
-
+        int width = lineChartBlock.getWidth();
+        int height = lineChartBlock.getHeight();
+        XYPlot plot = new XYPlot(lineChartBlock.getData());
+        BufferedImage bImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = (Graphics2D) bImage.getGraphics();
+        DrawingContext context = new DrawingContext(g2d);
+        plot.draw(context);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        DrawableWriter wr = DrawableWriterFactory.getInstance().get("image/jpeg");
+        try {
+            wr.write(plot, stream, width, height);
+            stream.flush();
+            PLImageBlock image = PLImageBlock.create(lineChartBlock);
+            image.setImage(stream.toByteArray());
+            this.renderImageBlock(image);
+            stream.close();
+        } catch (IOException e) {
+            logger.error("could not write the plot to " + stream, e);
+        }
     }
+
 
     @Override
     public void renderTextBlock(PLTextBlock textBlock) {

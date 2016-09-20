@@ -19,8 +19,21 @@ public class PLImageBlock extends Component{
 		this.parent = parent;
 	}
 
+	public static PLImageBlock create(Component component){
+		PLImageBlock imageBlock = new PLImageBlock(component.getParent());
+		imageBlock.setX(component.getX());
+		imageBlock.setY(component.getY());
+		imageBlock.setHeight(component.getHeight());
+		imageBlock.setWidth(component.getWidth());
+		return imageBlock;
+	}
+
 	public ImageData getImage(){
 		return image;
+	}
+
+	public void setImage(byte[] data){
+		this.image = ImageDataFactory.create(data);
 	}
 
 	public void setImage(ImageData image){
