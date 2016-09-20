@@ -6,7 +6,6 @@ import java.util.List;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
-import com.itextpdf.layout.property.UnitValue;
 import org.apache.log4j.Logger;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -14,7 +13,7 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.layout.Document;
 import com.xhub.pdflego.bloc.PLImageBlock;
-import com.xhub.pdflego.bloc.PLLineChartBlock;
+import com.xhub.pdflego.bloc.PLXYChartBlock;
 import com.xhub.pdflego.bloc.PLTextBlock;
 import com.xhub.pdflego.core.Component;
 import com.xhub.pdflego.core.Composite;
@@ -56,13 +55,12 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
     }
 
     private float calculateY(Component component){
-        return pageSize.getTop() - component.getHeight() + component.getY();
+        return pageSize.getTop() - component.getHeight() - component.getY();
     }
 
     @Override
     public void renderBlock(Component component) {
         logger.info(component + " started rendering");
-        logger.info(pageSize.getTop());
         Rectangle rectangle = new Rectangle(component.getX(), calculateY(component), component.getWidth(), component.getHeight());
         this.currentBlock = new Canvas(this.currentPageCanvas, this.pdfDocument, rectangle);
         this.renderDefaultBlock(component);
@@ -75,8 +73,8 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
             this.renderImageBlock((PLImageBlock) component);
         }
         //render lineChart block
-        else if(component.getClass().equals(PLLineChartBlock.class)){
-            this.renderLineChartBlock((PLLineChartBlock) component);
+        else if(component.getClass().equals(PLXYChartBlock.class)){
+            this.renderXYChartBlock((PLXYChartBlock) component);
         }else{
             logger.warn("Unhandled type");
         }
@@ -95,7 +93,7 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
     }
 
     @Override
-    public void renderLineChartBlock(PLLineChartBlock lineChartBlock) {
+    public void renderXYChartBlock(PLXYChartBlock lineChartBlock) {
 
     }
 
