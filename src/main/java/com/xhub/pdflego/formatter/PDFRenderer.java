@@ -34,7 +34,6 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
     private PdfPage currentPage;
     private PdfCanvas currentPageCanvas;
     private Canvas currentBlock;//@TODO find a better way to do this
-    private int yOffeset = 440;
 
     public PDFRenderer(Composite rootComponent){
         this(rootComponent, PageSize.A4);
@@ -56,10 +55,15 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
         this.currentPageCanvas = new PdfCanvas(this.currentPage);
     }
 
+    private float calculateY(Component component){
+        return pageSize.getTop() - component.getHeight() + component.getY();
+    }
+
     @Override
     public void renderBlock(Component component) {
         logger.info(component + " started rendering");
-        Rectangle rectangle = new Rectangle(component.getX(), component.getY() + yOffeset, component.getWidth(), component.getHeight());
+        logger.info(pageSize.getTop());
+        Rectangle rectangle = new Rectangle(component.getX(), calculateY(component), component.getWidth(), component.getHeight());
         this.currentBlock = new Canvas(this.currentPageCanvas, this.pdfDocument, rectangle);
         this.renderDefaultBlock(component);
         //render text block
