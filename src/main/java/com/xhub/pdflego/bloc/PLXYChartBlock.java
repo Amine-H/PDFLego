@@ -9,8 +9,9 @@ public class PLXYChartBlock extends Component {
 	private String title;
 	private DataSeries[] data;
 	private Color[] seriesColor;
-	private Color backgroundColor;
-	private Color titleColor;
+	private Color backgroundColor = Color.WHITE;
+	private Color titleColor = Color.BLACK;
+	private boolean legendVisible = true;
 
 	public PLXYChartBlock(Component parent){
 		super(parent);
@@ -28,7 +29,7 @@ public class PLXYChartBlock extends Component {
 		return data;
 	}
 
-	public void setData(DataSeries... data) {
+	public void setData(DataSeries[] data) {
 		this.data = data;
 	}
 
@@ -36,7 +37,7 @@ public class PLXYChartBlock extends Component {
 		return seriesColor;
 	}
 
-	public void setSeriesColor(Color... seriesColor) {
+	public void setSeriesColor(Color[] seriesColor) {
 		this.seriesColor = seriesColor;
 	}
 
@@ -54,5 +55,13 @@ public class PLXYChartBlock extends Component {
 
 	public void setTitleColor(Color titleColor) {
 		this.titleColor = titleColor;
+	}
+
+	public boolean isLegendVisible() {
+		return legendVisible;
+	}
+
+	public void setLegendVisible(boolean legendVisible) {
+		this.legendVisible = legendVisible;
 	}
 }

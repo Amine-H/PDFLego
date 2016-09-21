@@ -123,6 +123,7 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
         plot.getAxisRenderer(XYPlot.AXIS_X).setIntersection(-Double.MAX_VALUE);
         plot.getAxisRenderer(XYPlot.AXIS_Y).setIntersection(-Double.MAX_VALUE);
         plot.getTitle().setText(lineChartBlock.getTitle());
+        plot.setLegendVisible(lineChartBlock.isLegendVisible());
         Color backgroundColor = lineChartBlock.getBackgroundColor();
         Color titleColor = lineChartBlock.getTitleColor();
         Color[] seriesColor = lineChartBlock.getSeriesColor();
