@@ -3,13 +3,13 @@ package com.xhub.pdflego.bloc;
 import com.xhub.pdflego.core.Component;
 import de.erichseifert.gral.data.DataSeries;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class PLXYChartBlock extends Component {
 	private String title;
 	private DataSeries[] data;
 	private Color[] seriesColor;
-	private Color backgroundColor = Color.WHITE;
+	private Color plotBackgroundColor = Color.WHITE;
 	private Color titleColor = Color.BLACK;
 	private boolean legendVisible = true;
 
@@ -41,12 +41,12 @@ public class PLXYChartBlock extends Component {
 		this.seriesColor = seriesColor;
 	}
 
-	public Color getBackgroundColor() {
-		return backgroundColor;
+	public Color getPlotBackgroundColor() {
+		return plotBackgroundColor;
 	}
 
-	public void setBackgroundColor(Color backgroundColor) {
-		this.backgroundColor = backgroundColor;
+	public void setPlotBackgroundColor(Color plotBackgroundColor) {
+		this.plotBackgroundColor = plotBackgroundColor;
 	}
 
 	public Color getTitleColor() {

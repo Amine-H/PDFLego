@@ -1,6 +1,7 @@
 package com.xhub.pdflego.core;
 import com.xhub.pdflego.exception.ComponentOverflowException;
 import org.apache.log4j.Logger;
+import com.itextpdf.kernel.color.Color;
 
 /**
  * Component has the attributes of a rectangle
@@ -12,6 +13,7 @@ public abstract class Component {
 	protected Integer width;
 	protected Integer height;
 	protected Component parent;
+	protected Color backgroundColor;
 	private Logger logger = Logger.getLogger(Component.class);
 
 	public Component(Component parent){
@@ -73,5 +75,13 @@ public abstract class Component {
 
 	public void setParent(Component parent) {
 		this.parent = parent;
+	}
+
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
 	}
 }

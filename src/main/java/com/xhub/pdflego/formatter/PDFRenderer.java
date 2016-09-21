@@ -1,6 +1,7 @@
 package com.xhub.pdflego.formatter;
 
 import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,7 +13,6 @@ import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import de.erichseifert.gral.data.DataSeries;
-import de.erichseifert.gral.data.DataSource;
 import de.erichseifert.gral.graphics.DrawingContext;
 import de.erichseifert.gral.io.plots.DrawableWriter;
 import de.erichseifert.gral.io.plots.DrawableWriterFactory;
@@ -101,7 +101,10 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
 
     @Override
     public void renderDefaultBlock(Component component) {
-
+        com.itextpdf.kernel.color.Color backgroundColor = component.getBackgroundColor();
+        if(backgroundColor != null){
+            this.currentBlock.setBackgroundColor(backgroundColor);
+        }
     }
 
     @Override
@@ -124,7 +127,7 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
         plot.getAxisRenderer(XYPlot.AXIS_Y).setIntersection(-Double.MAX_VALUE);
         plot.getTitle().setText(lineChartBlock.getTitle());
         plot.setLegendVisible(lineChartBlock.isLegendVisible());
-        Color backgroundColor = lineChartBlock.getBackgroundColor();
+        Color backgroundColor = lineChartBlock.getPlotBackgroundColor();
         Color titleColor = lineChartBlock.getTitleColor();
         Color[] seriesColor = lineChartBlock.getSeriesColor();
         if(backgroundColor != null){
