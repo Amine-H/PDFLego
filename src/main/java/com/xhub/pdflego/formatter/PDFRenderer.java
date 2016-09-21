@@ -12,6 +12,7 @@ import com.itextpdf.io.image.ImageData;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.xhub.pdflego.bloc.PLTableBlock;
 import de.erichseifert.gral.data.DataSeries;
 import de.erichseifert.gral.graphics.DrawingContext;
 import de.erichseifert.gral.io.plots.DrawableWriter;
@@ -34,7 +35,7 @@ import com.xhub.pdflego.core.Component;
 import com.xhub.pdflego.core.Composite;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.element.Image;
-
+import com.itextpdf.layout.element.Table;
 
 
 /**
@@ -90,8 +91,12 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
             this.renderImageBlock((PLImageBlock) component);
         }
         //render lineChart block
-        else if(component.getClass().equals(PLXYChartBlock.class)){
+        else if(component.getClass().equals(PLXYChartBlock.class)) {
             this.renderXYChartBlock((PLXYChartBlock) component);
+        }
+        //render table block
+        else if(component.getClass().equals(PLTableBlock.class)){
+            this.renderTableBlock((PLTableBlock) component);
         }else{
             logger.warn("Unhandled type");
         }
@@ -219,6 +224,20 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
                     .setFontSize(textBlock.getFontSize());
             currentBlock.add(paragraph);
             textHeight += lineHeight;
+        }
+    }
+
+    @Override
+    public void renderTableBlock(PLTableBlock tableBlock) {
+        String[][] data = tableBlock.getData();
+        if(data != null){
+            int tableSize = data.length;
+            Table table = new Table(tableSize);
+            for(int i = 0;i < tableSize;i++){
+                for (int j = 0;j < data[i].length;j++){
+                    table.addCell(data[i][j]);
+                }
+            }
         }
     }
 
