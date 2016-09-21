@@ -12,12 +12,9 @@ public class PLTableBlock extends Component{
     }
     private String[] header;
     private String[][] data;
+    private Color fontColor;
     private Color headerBackgroundColor;
     private Color cellBackgroundColor;
-
-    public String[][] getData() {
-        return data;
-    }
 
     public String[] getHeader() {
         return header;
@@ -27,8 +24,20 @@ public class PLTableBlock extends Component{
         this.header = header;
     }
 
+    public String[][] getData() {
+        return data;
+    }
+
     public void setData(String[][] data) {
         this.data = data;
+    }
+
+    public Color getFontColor() {
+        return fontColor;
+    }
+
+    public void setFontColor(Color fontColor) {
+        this.fontColor = fontColor;
     }
 
     public Color getHeaderBackgroundColor() {

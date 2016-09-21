@@ -234,6 +234,7 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
         String[][] data = tableBlock.getData();
         com.itextpdf.kernel.color.Color headerBgColor = tableBlock.getHeaderBackgroundColor();
         com.itextpdf.kernel.color.Color cellBgColor = tableBlock.getCellBackgroundColor();
+        com.itextpdf.kernel.color.Color fontColor = tableBlock.getFontColor();
         if(headerBgColor == null){
             headerBgColor = cellBgColor;
         }
@@ -243,6 +244,9 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
             if(headers != null){
                 for(String header:headers){
                     Cell cell = new Cell().add(header);
+                    if(fontColor != null){
+                        cell.setFontColor(fontColor);
+                    }
                     if(headerBgColor != null){
                         cell.setBackgroundColor(headerBgColor);
                     }
@@ -252,6 +256,9 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
             for(int i = 0;i < tableSize;i++){
                 for (int j = 0;j < data[i].length;j++){
                     Cell cell = new Cell().add(data[i][j]);
+                    if(fontColor != null){
+                        cell.setFontColor(fontColor);
+                    }
                     if(cellBgColor != null){
                         cell.setBackgroundColor(cellBgColor);
                     }
