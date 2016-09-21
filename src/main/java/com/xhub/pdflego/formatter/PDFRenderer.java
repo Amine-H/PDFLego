@@ -103,7 +103,11 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
     public void renderDefaultBlock(Component component) {
         com.itextpdf.kernel.color.Color backgroundColor = component.getBackgroundColor();
         if(backgroundColor != null){
-            this.currentBlock.setBackgroundColor(backgroundColor);
+            this.currentPageCanvas
+                    .saveState()
+                    .setFillColor(backgroundColor)
+                    .rectangle(this.currentBlock.getRootArea()).fill()
+                    .restoreState();
         }
     }
 
