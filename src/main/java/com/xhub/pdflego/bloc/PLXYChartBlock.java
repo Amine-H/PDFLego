@@ -29,7 +29,7 @@ public class PLXYChartBlock extends Component {
 		return data;
 	}
 
-	public void setData(DataSeries[] data) {
+	public void setData(DataSeries... data) {
 		this.data = data;
 	}
 
@@ -37,7 +37,7 @@ public class PLXYChartBlock extends Component {
 		return seriesColor;
 	}
 
-	public void setSeriesColor(Color[] seriesColor) {
+	public void setSeriesColor(Color... seriesColor) {
 		this.seriesColor = seriesColor;
 	}
 
