@@ -238,6 +238,7 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
                     table.addCell(data[i][j]);
                 }
             }
+            currentBlock.add(table);
         }else{
             logger.warn("no data for " + tableBlock + " block was not rendered");
         }
