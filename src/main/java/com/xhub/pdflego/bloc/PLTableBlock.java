@@ -15,6 +15,7 @@ public class PLTableBlock extends Component{
     private Color fontColor;
     private Color headerBackgroundColor;
     private Color cellBackgroundColor;
+    private Color[] zebraSripes;
 
     public String[] getHeader() {
         return header;
@@ -54,5 +55,13 @@ public class PLTableBlock extends Component{
 
     public void setCellBackgroundColor(Color cellBackgroundColor) {
         this.cellBackgroundColor = cellBackgroundColor;
+    }
+
+    public Color[] getZebraSripes() {
+        return zebraSripes;
+    }
+
+    public void setZebraSripes(Color[] zebraSripes) {
+        this.zebraSripes = zebraSripes;
     }
 }

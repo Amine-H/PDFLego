@@ -235,12 +235,12 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
         com.itextpdf.kernel.color.Color headerBgColor = tableBlock.getHeaderBackgroundColor();
         com.itextpdf.kernel.color.Color cellBgColor = tableBlock.getCellBackgroundColor();
         com.itextpdf.kernel.color.Color fontColor = tableBlock.getFontColor();
+        com.itextpdf.kernel.color.Color[] zebraStripes = tableBlock.getZebraSripes();
         if(headerBgColor == null){
             headerBgColor = cellBgColor;
         }
-        if(data != null){
-            int tableSize = data.length;
-            Table table = new Table(tableSize);
+        if(data != null && data[0] != null){
+            Table table = new Table(data[0].length);
             if(headers != null){
                 for(String header:headers){
                     Cell cell = new Cell().add(header);
@@ -253,13 +253,16 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
                     table.addHeaderCell(cell);
                 }
             }
-            for(int i = 0;i < tableSize;i++){
+            for(int i = 0;i < data.length;i++){
                 for (int j = 0;j < data[i].length;j++){
                     Cell cell = new Cell().add(data[i][j]);
                     if(fontColor != null){
                         cell.setFontColor(fontColor);
                     }
-                    if(cellBgColor != null){
+                    if(zebraStripes != null && zebraStripes.length == 2){
+                        cell.setBackgroundColor(zebraStripes[i % 2]);
+                    }
+                    else if(cellBgColor != null){
                         cell.setBackgroundColor(cellBgColor);
                     }
                     table.addCell(cell);
