@@ -1,9 +1,6 @@
 package com.xhub.pdflego.bloc;
-import java.io.File;
 import java.net.MalformedURLException;
-
 import com.xhub.pdflego.core.Component;
-import org.apache.log4j.Logger;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 
@@ -13,7 +10,6 @@ import com.itextpdf.io.image.ImageDataFactory;
  */
 public class PLImageBlock extends Component{
 	private ImageData image;
-	private Logger logger = Logger.getLogger(PLImageBlock.class);
 	
 	public PLImageBlock(Component parent){
 		super(parent);

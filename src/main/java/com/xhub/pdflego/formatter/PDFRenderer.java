@@ -11,10 +11,16 @@ import com.itextpdf.io.image.ImageData;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import de.erichseifert.gral.data.DataSeries;
+import de.erichseifert.gral.data.DataSource;
 import de.erichseifert.gral.graphics.DrawingContext;
 import de.erichseifert.gral.io.plots.DrawableWriter;
 import de.erichseifert.gral.io.plots.DrawableWriterFactory;
 import de.erichseifert.gral.plots.XYPlot;
+import de.erichseifert.gral.plots.lines.DefaultLineRenderer2D;
+import de.erichseifert.gral.plots.lines.LineRenderer;
+import de.erichseifert.gral.plots.points.DefaultPointRenderer2D;
+import de.erichseifert.gral.plots.points.PointRenderer;
 import org.apache.log4j.Logger;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -114,6 +120,35 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
         int width = lineChartBlock.getWidth();
         int height = lineChartBlock.getHeight();
         XYPlot plot = new XYPlot(lineChartBlock.getData());
+        plot.getAxisRenderer(XYPlot.AXIS_X).setIntersection(-Double.MAX_VALUE);
+        plot.getAxisRenderer(XYPlot.AXIS_Y).setIntersection(-Double.MAX_VALUE);
+        plot.getTitle().setText(lineChartBlock.getTitle());
+        Color backgroundColor = lineChartBlock.getBackgroundColor();
+        Color titleColor = lineChartBlock.getTitleColor();
+        Color[] seriesColor = lineChartBlock.getSeriesColor();
+        if(backgroundColor != null){
+            plot.setBackground(backgroundColor);
+            plot.getPlotArea().setBackground(backgroundColor);
+            plot.getTitle().setBackground(backgroundColor);
+        }
+        if(titleColor != null){
+            plot.getTitle().setColor(titleColor);
+        }
+        if(seriesColor != null){
+            for(int i = 0;i < lineChartBlock.getSeriesColor().length;i++){
+                try{
+                    PointRenderer ptRenderer = new DefaultPointRenderer2D();
+                    LineRenderer lineRenderer = new DefaultLineRenderer2D();
+                    DataSeries[] data = lineChartBlock.getData();
+                    ptRenderer.setColor(lineChartBlock.getSeriesColor()[i]);
+                    lineRenderer.setColor(lineChartBlock.getSeriesColor()[i]);
+                    plot.setPointRenderers(data[i], ptRenderer);
+                    plot.setLineRenderers(data[i], lineRenderer);
+                }catch(NullPointerException e){
+                    logger.error("Error caused when trying to set color for a series", e);
+                }
+            }
+        }
         BufferedImage bImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = (Graphics2D) bImage.getGraphics();
         DrawingContext context = new DrawingContext(g2d);

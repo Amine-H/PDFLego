@@ -1,7 +1,6 @@
 package com.xhub.pdflego.bloc;
 import com.itextpdf.kernel.font.PdfFont;
 import com.xhub.pdflego.core.Component;
-import org.apache.log4j.Logger;
 
 /**
  * PLTextBlock is a text {@link Component}, it is used to draw text to a page
@@ -12,7 +11,6 @@ public class PLTextBlock extends Component{
 	private Integer fontSize = 14;
 	private Float lineSpacing = 0.5f;
 	private PdfFont font;
-	private Logger logger = Logger.getLogger(PLTextBlock.class);
 
 	public PLTextBlock(Component parent){
 		super(parent);

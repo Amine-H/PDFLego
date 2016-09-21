@@ -1,49 +1,58 @@
 package com.xhub.pdflego.bloc;
 
 import com.xhub.pdflego.core.Component;
-import de.erichseifert.gral.data.DataTable;
-import org.apache.log4j.Logger;
+import de.erichseifert.gral.data.DataSeries;
+
+import java.awt.*;
 
 public class PLXYChartBlock extends Component {
-	private String chartName;
-	private String xLabel;
-	private String yLabel;
-	private DataTable[] data;
-	private Logger logger = Logger.getLogger(PLXYChartBlock.class);
+	private String title;
+	private DataSeries[] data;
+	private Color[] seriesColor;
+	private Color backgroundColor;
+	private Color titleColor;
 
 	public PLXYChartBlock(Component parent){
 		super(parent);
 	}
 
-	public String getChartName() {
-		return chartName;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setChartName(String chartName) {
-		this.chartName = chartName;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getxLabel() {
-		return xLabel;
-	}
-
-	public void setxLabel(String xLabel) {
-		this.xLabel = xLabel;
-	}
-
-	public String getyLabel() {
-		return yLabel;
-	}
-
-	public void setyLabel(String yLabel) {
-		this.yLabel = yLabel;
-	}
-
-	public DataTable[] getData() {
+	public DataSeries[] getData() {
 		return data;
 	}
 
-	public void setData(DataTable... data) {
+	public void setData(DataSeries... data) {
 		this.data = data;
+	}
+
+	public Color[] getSeriesColor() {
+		return seriesColor;
+	}
+
+	public void setSeriesColor(Color... seriesColor) {
+		this.seriesColor = seriesColor;
+	}
+
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
+
+	public Color getTitleColor() {
+		return titleColor;
+	}
+
+	public void setTitleColor(Color titleColor) {
+		this.titleColor = titleColor;
 	}
 }
