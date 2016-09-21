@@ -12,6 +12,7 @@ import com.itextpdf.io.image.ImageData;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.layout.element.Cell;
 import com.xhub.pdflego.bloc.PLTableBlock;
 import de.erichseifert.gral.data.DataSeries;
 import de.erichseifert.gral.graphics.DrawingContext;
@@ -229,13 +230,32 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
 
     @Override
     public void renderTableBlock(PLTableBlock tableBlock) {
+        String[] headers = tableBlock.getHeader();
         String[][] data = tableBlock.getData();
+        com.itextpdf.kernel.color.Color headerBgColor = tableBlock.getHeaderBackgroundColor();
+        com.itextpdf.kernel.color.Color cellBgColor = tableBlock.getCellBackgroundColor();
+        if(headerBgColor == null){
+            headerBgColor = cellBgColor;
+        }
         if(data != null){
             int tableSize = data.length;
             Table table = new Table(tableSize);
+            if(headers != null){
+                for(String header:headers){
+                    Cell cell = new Cell().add(header);
+                    if(headerBgColor != null){
+                        cell.setBackgroundColor(headerBgColor);
+                    }
+                    table.addHeaderCell(cell);
+                }
+            }
             for(int i = 0;i < tableSize;i++){
                 for (int j = 0;j < data[i].length;j++){
-                    table.addCell(data[i][j]);
+                    Cell cell = new Cell().add(data[i][j]);
+                    if(cellBgColor != null){
+                        cell.setBackgroundColor(cellBgColor);
+                    }
+                    table.addCell(cell);
                 }
             }
             currentBlock.add(table);
