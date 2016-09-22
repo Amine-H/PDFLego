@@ -1,42 +1,25 @@
 package com.xhub.pdflego.formatter;
 
-import java.awt.*;
-import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.itextpdf.io.image.ImageData;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
-import com.itextpdf.layout.element.Cell;
+import com.xhub.pdflego.bloc.PLImageBlock;
 import com.xhub.pdflego.bloc.PLTableBlock;
-import de.erichseifert.gral.data.DataSeries;
-import de.erichseifert.gral.graphics.DrawingContext;
-import de.erichseifert.gral.io.plots.DrawableWriter;
-import de.erichseifert.gral.io.plots.DrawableWriterFactory;
-import de.erichseifert.gral.plots.XYPlot;
-import de.erichseifert.gral.plots.lines.DefaultLineRenderer2D;
-import de.erichseifert.gral.plots.lines.LineRenderer;
-import de.erichseifert.gral.plots.points.DefaultPointRenderer2D;
-import de.erichseifert.gral.plots.points.PointRenderer;
+import com.xhub.pdflego.formatter.pdf.*;
 import org.apache.log4j.Logger;
-import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.layout.Document;
-import com.xhub.pdflego.bloc.PLImageBlock;
 import com.xhub.pdflego.bloc.PLXYChartBlock;
 import com.xhub.pdflego.bloc.PLTextBlock;
 import com.xhub.pdflego.core.Component;
 import com.xhub.pdflego.core.Composite;
 import com.itextpdf.layout.Canvas;
-import com.itextpdf.layout.element.Image;
-import com.itextpdf.layout.element.Table;
 
 
 /**
@@ -51,6 +34,7 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
     private Document document;
     private PdfPage currentPage;
     private PdfCanvas currentPageCanvas;
+    private Map<Class, Class> renderStrategies;
     private Canvas currentBlock;//@TODO find a better way to do this
 
     public PDFRenderer(Composite rootComponent){
@@ -65,6 +49,13 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
         this.pdfDocument = new PdfDocument(pdfWriter);
         this.document = new Document(pdfDocument, pageSize);
         this.document.setMargins(0, 0, 0, 0);
+        this.renderStrategies = new HashMap<Class, Class>(){{
+            put(Component.class, DefaultComponentRenderStrategy.class);
+            put(PLImageBlock.class, ImageRenderStrategy.class);
+            put(PLTextBlock.class, TextRenderStrategy.class);
+            put(PLTableBlock.class, TableRenderStrategy.class);
+            put(PLXYChartBlock.class, XYChartRenderStrategy.class);
+        }};
         this.newPage();
     }
 
@@ -82,197 +73,27 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
         logger.info(component + " started rendering");
         Rectangle rectangle = new Rectangle(component.getX(), calculateY(component), component.getWidth(), component.getHeight());
         this.currentBlock = new Canvas(this.currentPageCanvas, this.pdfDocument, rectangle);
-        this.renderDefaultBlock(component);
-        //render text block
-        if(component.getClass().equals(PLTextBlock.class)){
-            this.renderTextBlock((PLTextBlock) component);
-        }
-        //render image block
-        else if(component.getClass().equals(PLImageBlock.class)){
-            this.renderImageBlock((PLImageBlock) component);
-        }
-        //render lineChart block
-        else if(component.getClass().equals(PLXYChartBlock.class)) {
-            this.renderXYChartBlock((PLXYChartBlock) component);
-        }
-        //render table block
-        else if(component.getClass().equals(PLTableBlock.class)){
-            this.renderTableBlock((PLTableBlock) component);
-        }else{
-            logger.warn("Unhandled type");
-        }
+
+        this.renderStrategies.forEach((c, strategy) -> {
+            if(c.isInstance(component)){
+                try{
+                    ComponenRenderStrategy strategyInstance = (ComponenRenderStrategy)strategy.getConstructor().newInstance();
+                    strategyInstance.render(currentBlock, component);
+                }catch(NoSuchMethodException e){
+                    this.logger.error("Could not find default Constructor for " + strategy, e);
+                } catch (IllegalAccessException e) {
+                    this.logger.error("Wong accessor was set to the strategy " + strategy, e);
+                } catch (InstantiationException e) {
+                    this.logger.error("Could not instantiate " + strategy, e);
+                } catch (InvocationTargetException e) {
+                    this.logger.error("Exception thrown by invoked method of " + strategy, e);
+                }
+            }
+        });
         this.currentBlock = null;
         logger.info(component + " finished rendering");
     }
 
-    @Override
-    public void renderDefaultBlock(Component component) {
-        com.itextpdf.kernel.color.Color backgroundColor = component.getBackgroundColor();
-        if(backgroundColor != null){
-            this.currentPageCanvas
-                    .saveState()
-                    .setFillColor(backgroundColor)
-                    .rectangle(this.currentBlock.getRootArea()).fill()
-                    .restoreState();
-        }
-    }
-
-    @Override
-    public void renderImageBlock(PLImageBlock imageBlock) {
-        ImageData imageData = imageBlock.getImage();
-        if(imageData != null){
-            Image image = new Image(imageBlock.getImage());
-            currentBlock.add(image);
-        }else{
-            logger.warn(imageBlock + " doesn't have any data, object not drawn");
-        }
-    }
-
-    @Override
-    public void renderXYChartBlock(PLXYChartBlock lineChartBlock) {
-        int width = lineChartBlock.getWidth();
-        int height = lineChartBlock.getHeight();
-        XYPlot plot = new XYPlot(lineChartBlock.getData());
-        plot.getAxisRenderer(XYPlot.AXIS_X).setIntersection(-Double.MAX_VALUE);
-        plot.getAxisRenderer(XYPlot.AXIS_Y).setIntersection(-Double.MAX_VALUE);
-        plot.getTitle().setText(lineChartBlock.getTitle());
-        plot.setLegendVisible(lineChartBlock.isLegendVisible());
-        Color backgroundColor = lineChartBlock.getPlotBackgroundColor();
-        Color titleColor = lineChartBlock.getTitleColor();
-        Color[] seriesColor = lineChartBlock.getSeriesColor();
-        if(backgroundColor != null){
-            plot.setBackground(backgroundColor);
-            plot.getPlotArea().setBackground(backgroundColor);
-            plot.getTitle().setBackground(backgroundColor);
-        }
-        if(titleColor != null){
-            plot.getTitle().setColor(titleColor);
-        }
-        if(seriesColor != null){
-            for(int i = 0;i < lineChartBlock.getSeriesColor().length;i++){
-                try{
-                    PointRenderer ptRenderer = new DefaultPointRenderer2D();
-                    LineRenderer lineRenderer = new DefaultLineRenderer2D();
-                    DataSeries[] data = lineChartBlock.getData();
-                    ptRenderer.setColor(lineChartBlock.getSeriesColor()[i]);
-                    lineRenderer.setColor(lineChartBlock.getSeriesColor()[i]);
-                    plot.setPointRenderers(data[i], ptRenderer);
-                    plot.setLineRenderers(data[i], lineRenderer);
-                }catch(NullPointerException e){
-                    logger.error("Error caused when trying to set color for a series", e);
-                }
-            }
-        }
-        BufferedImage bImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = (Graphics2D) bImage.getGraphics();
-        DrawingContext context = new DrawingContext(g2d);
-        plot.draw(context);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        DrawableWriter wr = DrawableWriterFactory.getInstance().get("image/jpeg");
-        try {
-            wr.write(plot, stream, width, height);
-            stream.flush();
-            PLImageBlock image = PLImageBlock.create(lineChartBlock);
-            image.setImage(stream.toByteArray());
-            this.renderImageBlock(image);
-            stream.close();
-        } catch (IOException e) {
-            logger.error("could not write the plot to " + stream, e);
-        }
-    }
-
-
-    @Override
-    public void renderTextBlock(PLTextBlock textBlock) {
-        String text = new String(textBlock.getText());
-        Integer blockWidth = textBlock.getWidth();
-        Integer blockHeight = textBlock.getHeight();
-        List<String> lines = new ArrayList<>();
-        String[] words = text.split(" ");
-        String myLine = "";
-
-        // get all words from the text
-        for(String word : words) {
-            if(!myLine.isEmpty()) {
-                myLine += " ";
-            }
-            // test the width of the current line + the current word
-            int textWidth = (int) (textBlock.getFontSize() * textBlock.getFont().getWidth(myLine + word) / 1000);
-            if(textWidth > blockWidth) {
-                // if the line would be too long with the current word, add the line without the current word
-                lines.add(myLine);
-                // and start a new line with the current word
-                myLine = word;
-            } else {
-                // if the current line + the current word would fit, add the current word to the line
-                myLine += word;
-            }
-        }
-        // add the rest to lines
-        lines.add(myLine);
-        //draw the list of lines
-        float textHeight = 0f;
-        float lineHeight = textBlock.getFontSize() + textBlock.getLineSpacing();
-
-        for(String line: lines){
-            if(textHeight + lineHeight > blockHeight){
-                this.logger.warn("text is bigger than the Component's Height, ignoring the rest of the text");
-                break;
-            }
-            Paragraph paragraph = new Paragraph(line)
-                    .setFixedLeading(textBlock.getLineSpacing())
-                    .setFont(textBlock.getFont())
-                    .setFontSize(textBlock.getFontSize());
-            currentBlock.add(paragraph);
-            textHeight += lineHeight;
-        }
-    }
-
-    @Override
-    public void renderTableBlock(PLTableBlock tableBlock) {
-        String[] headers = tableBlock.getHeader();
-        String[][] data = tableBlock.getData();
-        com.itextpdf.kernel.color.Color headerBgColor = tableBlock.getHeaderBackgroundColor();
-        com.itextpdf.kernel.color.Color cellBgColor = tableBlock.getCellBackgroundColor();
-        com.itextpdf.kernel.color.Color fontColor = tableBlock.getFontColor();
-        com.itextpdf.kernel.color.Color[] zebraStripes = tableBlock.getZebraSripes();
-        if(headerBgColor == null){
-            headerBgColor = cellBgColor;
-        }
-        if(data != null && data[0] != null){
-            Table table = new Table(data[0].length);
-            if(headers != null){
-                for(String header:headers){
-                    Cell cell = new Cell().add(header);
-                    if(fontColor != null){
-                        cell.setFontColor(fontColor);
-                    }
-                    if(headerBgColor != null){
-                        cell.setBackgroundColor(headerBgColor);
-                    }
-                    table.addHeaderCell(cell);
-                }
-            }
-            for(int i = 0;i < data.length;i++){
-                for (int j = 0;j < data[i].length;j++){
-                    Cell cell = new Cell().add(data[i][j]);
-                    if(fontColor != null){
-                        cell.setFontColor(fontColor);
-                    }
-                    if(zebraStripes != null && zebraStripes.length == 2){
-                        cell.setBackgroundColor(zebraStripes[i % 2]);
-                    }
-                    else if(cellBgColor != null){
-                        cell.setBackgroundColor(cellBgColor);
-                    }
-                    table.addCell(cell);
-                }
-            }
-            currentBlock.add(table);
-        }else{
-            logger.warn("no data for " + tableBlock + " block was not rendered");
-        }
-    }
 
     @Override
     public ByteArrayOutputStream render() {

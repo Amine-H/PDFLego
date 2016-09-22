@@ -20,10 +20,5 @@ public abstract class DocumentRenderer<T> {
             compositeBlock.getChildComponents().forEach(component -> this.renderBlock(component));
         }
     }
-    public abstract void renderDefaultBlock(Component component);
     public abstract void renderBlock(Component component);
-    public abstract void renderImageBlock(PLImageBlock imageBlock);
-    public abstract void renderXYChartBlock(PLXYChartBlock lineChartBlock);
-    public abstract void renderTextBlock(PLTextBlock textBlock);
-    public abstract void renderTableBlock(PLTableBlock tableBlock);
 }
