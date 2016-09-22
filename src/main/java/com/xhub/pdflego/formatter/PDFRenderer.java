@@ -97,9 +97,7 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
 
     @Override
     public ByteArrayOutputStream render() {
-        for(Component component: rootComponent.getChildComponents()){
-            this.renderBlock(component);
-        }
+        this.renderBlock(rootComponent);
         document.close();
         return outputStream;
     }

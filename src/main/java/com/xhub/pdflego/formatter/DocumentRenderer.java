@@ -16,8 +16,16 @@ public abstract class DocumentRenderer<T> {
     }
     public abstract T render();
     public void renderBlock(Composite compositeBlock){
+        this.renderBlock((Component)compositeBlock);
         if(compositeBlock != null && compositeBlock.getChildComponents() != null){
-            compositeBlock.getChildComponents().forEach(component -> this.renderBlock(component));
+            logger.info("rendering child components of " + compositeBlock);
+            compositeBlock.getChildComponents().forEach(component -> {
+                if(component instanceof Composite){
+                    this.renderBlock((Composite)component);
+                }else{
+                    this.renderBlock(component);
+                }
+            });
         }
     }
     public abstract void renderBlock(Component component);
