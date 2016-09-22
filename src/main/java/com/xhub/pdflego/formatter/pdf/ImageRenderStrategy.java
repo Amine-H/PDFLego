@@ -15,7 +15,7 @@ public class ImageRenderStrategy implements ComponenRenderStrategy<PLImageBlock>
     public void render(Canvas componentCanvas, PLImageBlock component) {
         ImageData imageData = component.getImage();
         if(imageData != null){
-            Image image = new Image(component.getImage());
+            Image image = new Image(imageData);
             componentCanvas.add(image);
         }else{
             this.logger.warn(component + " doesn't have any data, object not drawn");
