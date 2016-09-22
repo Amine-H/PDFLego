@@ -14,18 +14,18 @@ public class DefaultComponentRenderStrategy implements ComponenRenderStrategy<Co
     public void render(Canvas componentCanvas, Component component) {
         com.itextpdf.kernel.color.Color backgroundColor = component.getBackgroundColor();
         ImageData backgroundImage = component.getBackgroundImage();
-        if(backgroundColor != null){
-            Div div = new Div();
-            div.setWidth(component.getWidth());
-            div.setHeight(component.getHeight());
-            div.setBackgroundColor(backgroundColor);
-            componentCanvas.add(div);
-        }
         if(backgroundImage != null){
             PLImageBlock image = PLImageBlock.create(component);
             image.setImage(backgroundImage);
             ImageRenderStrategy imageRenderer = new ImageRenderStrategy();
             imageRenderer.render(componentCanvas, image);
+        }
+        else if(backgroundColor != null){
+            Div div = new Div();
+            div.setWidth(component.getWidth());
+            div.setHeight(component.getHeight());
+            div.setBackgroundColor(backgroundColor);
+            componentCanvas.add(div);
         }
     }
 }
