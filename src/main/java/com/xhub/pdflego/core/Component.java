@@ -1,4 +1,5 @@
 package com.xhub.pdflego.core;
+import com.itextpdf.io.image.ImageData;
 import com.xhub.pdflego.exception.ComponentOverflowException;
 import org.apache.log4j.Logger;
 import com.itextpdf.kernel.color.Color;
@@ -14,6 +15,7 @@ public abstract class Component {
 	protected Integer height;
 	protected Component parent;
 	protected Color backgroundColor;
+	protected ImageData backgroundImage;
 	private Logger logger = Logger.getLogger(Component.class);
 
 	public Component(Component parent){
@@ -83,5 +85,13 @@ public abstract class Component {
 
 	public void setBackgroundColor(Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
+	}
+
+	public ImageData getBackgroundImage() {
+		return backgroundImage;
+	}
+
+	public void setBackgroundImage(ImageData backgroundImage) {
+		this.backgroundImage = backgroundImage;
 	}
 }
