@@ -7,16 +7,13 @@ import java.util.Map;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
-import com.xhub.pdflego.bloc.PLImageBlock;
-import com.xhub.pdflego.bloc.PLTableBlock;
+import com.xhub.pdflego.bloc.*;
 import com.xhub.pdflego.formatter.pdf.*;
 import org.apache.log4j.Logger;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.layout.Document;
-import com.xhub.pdflego.bloc.PLXYChartBlock;
-import com.xhub.pdflego.bloc.PLTextBlock;
 import com.xhub.pdflego.core.Component;
 import com.xhub.pdflego.core.Composite;
 import com.itextpdf.layout.Canvas;
@@ -55,6 +52,7 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
             put(PLTextBlock.class, TextRenderStrategy.class);
             put(PLTableBlock.class, TableRenderStrategy.class);
             put(PLXYChartBlock.class, XYChartRenderStrategy.class);
+            put(PLPieChartBlock.class, PieChartRenderStrategy.class);
         }};
         this.newPage();
     }
