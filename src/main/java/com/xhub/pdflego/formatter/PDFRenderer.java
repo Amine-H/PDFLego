@@ -2,7 +2,7 @@ package com.xhub.pdflego.formatter;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfPage;
@@ -46,7 +46,7 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
         this.pdfDocument = new PdfDocument(pdfWriter);
         this.document = new Document(pdfDocument, pageSize);
         this.document.setMargins(0, 0, 0, 0);
-        this.renderStrategies = new HashMap<Class, Class>(){{
+        this.renderStrategies = new LinkedHashMap<Class, Class>(){{
             put(Component.class, DefaultComponentRenderStrategy.class);
             put(PLImageBlock.class, ImageRenderStrategy.class);
             put(PLTextBlock.class, TextRenderStrategy.class);
