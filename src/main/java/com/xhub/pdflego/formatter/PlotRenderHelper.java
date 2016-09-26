@@ -27,7 +27,7 @@ public class PlotRenderHelper<T extends Component> {
         DrawingContext context = new DrawingContext(g2d);
         plot.draw(context);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        DrawableWriter wr = DrawableWriterFactory.getInstance().get("image/jpeg");
+        DrawableWriter wr = DrawableWriterFactory.getInstance().get("image/png");
         try {
             wr.write(plot, stream, width, height);
             stream.flush();
