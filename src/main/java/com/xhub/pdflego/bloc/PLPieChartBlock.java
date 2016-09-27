@@ -1,6 +1,6 @@
 package com.xhub.pdflego.bloc;
 
-import com.itextpdf.kernel.color.Color;
+import java.awt.Color;
 import com.xhub.pdflego.core.Component;
 
 /**
@@ -12,6 +12,7 @@ public class PLPieChartBlock extends Component{
     }
     private String title;
     private Integer[] data;
+    private Color pieColor;
     private Color[] colors;
     private Float gap;
     private Float radius;
@@ -30,6 +31,14 @@ public class PLPieChartBlock extends Component{
 
     public void setData(Integer[] data) {
         this.data = data;
+    }
+
+    public Color getPieColor() {
+        return pieColor;
+    }
+
+    public void setPieColor(Color pieColor) {
+        this.pieColor = pieColor;
     }
 
     public Color[] getColors() {

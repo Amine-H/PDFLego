@@ -1,12 +1,13 @@
 package com.xhub.pdflego.formatter.pdf;
 
-import com.itextpdf.kernel.color.Color;
+import java.awt.Color;
 import com.itextpdf.layout.Canvas;
 import com.xhub.pdflego.bloc.PLPieChartBlock;
 import com.xhub.pdflego.formatter.PlotRenderHelper;
 import de.erichseifert.gral.data.DataTable;
 import de.erichseifert.gral.plots.PiePlot;
 import de.erichseifert.gral.plots.PiePlot.PieSliceRenderer;
+import de.erichseifert.gral.plots.colors.IndexedColors;
 import de.erichseifert.gral.plots.colors.LinearGradient;
 import org.apache.log4j.Logger;
 
@@ -20,11 +21,14 @@ public class PieChartRenderStrategy extends PlotRenderHelper<PLPieChartBlock> im
         Integer[] dataset = component.getData();
         Float gap = component.getGap();
         Float radius = component.getRadius();
+        Color pieColor = component.getPieColor();
         Color[] colors = component.getColors();
         if(dataset != null){
             DataTable dataTable = new DataTable(Integer.class);
             String title = component.getTitle();
-            dataTable.add(dataset);
+            for(Integer row:dataset){
+                dataTable.add(row);
+            }
             PiePlot plot = new PiePlot(dataTable);
             PieSliceRenderer pointRenderer = (PieSliceRenderer) plot.getPointRenderer(dataTable);
 
@@ -37,10 +41,9 @@ public class PieChartRenderStrategy extends PlotRenderHelper<PLPieChartBlock> im
             if(radius != null){
                 pointRenderer.setInnerRadius(radius);
             }
-            if(colors != null){
-                java.awt.Color color1 = java.awt.Color.BLUE;
-                java.awt.Color color2 = java.awt.Color.CYAN;
-                pointRenderer.setColor(new LinearGradient(color1, color2));
+            if(pieColor != null && colors != null){
+                IndexedColors indexedColors = new IndexedColors(pieColor, colors);
+                pointRenderer.setColor(indexedColors);
             }
             drawPlot(plot, component, componentCanvas);
         }else{
