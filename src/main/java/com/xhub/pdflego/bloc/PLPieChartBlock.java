@@ -15,7 +15,8 @@ public class PLPieChartBlock extends Component{
     private Color pieColor;
     private Color[] colors;
     private Float gap;
-    private Float radius;
+    private Float innerRadius;
+    private Float outerRadius;
 
     public String getTitle() {
         return title;
@@ -57,11 +58,19 @@ public class PLPieChartBlock extends Component{
         this.gap = gap;
     }
 
-    public Float getRadius() {
-        return radius;
+    public Float getInnerRadius() {
+        return innerRadius;
     }
 
-    public void setRadius(Float radius) {
-        this.radius = radius;
+    public void setInnerRadius(Float innerRadius) {
+        this.innerRadius = innerRadius;
+    }
+
+    public Float getOuterRadius() {
+        return outerRadius;
+    }
+
+    public void setOuterRadius(Float outerRadius) {
+        this.outerRadius = outerRadius;
     }
 }

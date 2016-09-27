@@ -8,7 +8,6 @@ import de.erichseifert.gral.data.DataTable;
 import de.erichseifert.gral.plots.PiePlot;
 import de.erichseifert.gral.plots.PiePlot.PieSliceRenderer;
 import de.erichseifert.gral.plots.colors.IndexedColors;
-import de.erichseifert.gral.plots.colors.LinearGradient;
 import org.apache.log4j.Logger;
 
 /**
@@ -20,7 +19,8 @@ public class PieChartRenderStrategy extends PlotRenderHelper<PLPieChartBlock> im
     public void render(Canvas componentCanvas, PLPieChartBlock component) {
         Integer[] dataset = component.getData();
         Float gap = component.getGap();
-        Float radius = component.getRadius();
+        Float innerRadius = component.getInnerRadius();
+        Float outerRadius = component.getOuterRadius();
         Color pieColor = component.getPieColor();
         Color[] colors = component.getColors();
         if(dataset != null){
@@ -32,15 +32,10 @@ public class PieChartRenderStrategy extends PlotRenderHelper<PLPieChartBlock> im
             PiePlot plot = new PiePlot(dataTable);
             PieSliceRenderer pointRenderer = (PieSliceRenderer) plot.getPointRenderer(dataTable);
 
-            if(title != null){
-                plot.getTitle().setText(title);
-            }
-            if(gap != null){
-                pointRenderer.setGap(gap);
-            }
-            if(radius != null){
-                pointRenderer.setInnerRadius(radius);
-            }
+            if(title != null) plot.getTitle().setText(title);
+            if(gap != null) pointRenderer.setGap(gap);
+            if(innerRadius != null) pointRenderer.setInnerRadius(innerRadius);
+            if(outerRadius != null) pointRenderer.setOuterRadius(outerRadius);
             if(pieColor != null && colors != null){
                 IndexedColors indexedColors = new IndexedColors(pieColor, colors);
                 pointRenderer.setColor(indexedColors);
