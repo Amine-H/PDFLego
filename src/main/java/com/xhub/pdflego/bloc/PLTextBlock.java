@@ -8,12 +8,13 @@ import com.xhub.pdflego.core.Component;
  */
 public class PLTextBlock extends Component{
 	private String text;
-	private Integer fontSize = 14;
-	private Float lineSpacing = 0.5f;
+	private Float lineSpacing;
 	private PdfFont font;
 
 	public PLTextBlock(Component parent){
 		super(parent);
+		this.setFontSize(14f);
+		this.lineSpacing =  0.5f;
 	}
 
 	public String getText() {
@@ -22,14 +23,6 @@ public class PLTextBlock extends Component{
 
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	public Integer getFontSize() {
-		return fontSize;
-	}
-
-	public void setFontSize(Integer fontSize) {
-		this.fontSize = fontSize;
 	}
 
 	public PdfFont getFont() {

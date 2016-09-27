@@ -9,13 +9,15 @@ import com.itextpdf.kernel.color.Color;
  * @author Amine Hakkou
  */
 public abstract class Component {
-	protected Integer x = 0;
-	protected Integer y = 0;
-	protected Integer width;
-	protected Integer height;
-	protected Component parent;
-	protected Color backgroundColor;
-	protected ImageData backgroundImage;
+	private Integer x = 0;
+	private Integer y = 0;
+	private Integer width;
+	private Integer height;
+	private Component parent;
+	private Color backgroundColor;
+	private ImageData backgroundImage;
+	private Float fontSize;
+	private Color fontColor;
 	private Logger logger = Logger.getLogger(Component.class);
 
 	public Component(Component parent){
@@ -93,5 +95,21 @@ public abstract class Component {
 
 	public void setBackgroundImage(ImageData backgroundImage) {
 		this.backgroundImage = backgroundImage;
+	}
+
+	public Float getFontSize() {
+		return fontSize;
+	}
+
+	public void setFontSize(Float fontSize) {
+		this.fontSize = fontSize;
+	}
+
+	public Color getFontColor() {
+		return fontColor;
+	}
+
+	public void setFontColor(Color fontColor) {
+		this.fontColor = fontColor;
 	}
 }

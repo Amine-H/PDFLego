@@ -1,5 +1,6 @@
 package com.xhub.pdflego.formatter.pdf;
 
+import com.itextpdf.kernel.color.Color;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.element.Paragraph;
 import com.xhub.pdflego.bloc.PLTextBlock;
@@ -14,14 +15,18 @@ public class TextRenderStrategy implements ComponenRenderStrategy<PLTextBlock>{
     public void render(Canvas componentCanvas, PLTextBlock component) {
         String text = component.getText();
         float leading = component.getFontSize() + component.getLineSpacing();
+        Color fontColor = component.getFontColor();
+        Float fontSize = component.getFontSize();
 
-        Paragraph paragraph = new Paragraph()
-                .setMargin(0)
-                .setFirstLineIndent(0)
-                .setFixedLeading(leading)
-                .setFont(component.getFont())
-                .setFontSize(component.getFontSize())
-                .add(text);
+        Paragraph paragraph = new Paragraph();
+        paragraph.setMargin(0);
+        paragraph.setFirstLineIndent(0);
+        paragraph.setFixedLeading(leading);
+        paragraph.setFont(component.getFont());
+        if(fontColor != null) paragraph.setFontColor(fontColor);
+        if(fontSize != null) paragraph.setFontSize(fontSize);
+        paragraph.setFontSize(component.getFontSize());
+        paragraph.add(text);
         componentCanvas.add(paragraph);
     }
 }

@@ -22,10 +22,10 @@ public class TableRenderStrategy implements ComponenRenderStrategy<PLTableBlock>
         com.itextpdf.kernel.color.Color headerBgColor = component.getHeaderBackgroundColor();
         com.itextpdf.kernel.color.Color cellBgColor = component.getCellBackgroundColor();
         com.itextpdf.kernel.color.Color fontColor = component.getFontColor();
+        Float fontSize = component.getFontSize();
         com.itextpdf.kernel.color.Color[] zebraStripes = component.getZebraSripes();
-        if(headerBgColor == null){
-            headerBgColor = cellBgColor;
-        }
+        if(headerBgColor == null) headerBgColor = cellBgColor;
+
         if(data != null && data.length > 0){
             int columnCount = data[0].length;
             Table table = new Table(columnCount);
@@ -35,12 +35,9 @@ public class TableRenderStrategy implements ComponenRenderStrategy<PLTableBlock>
                 for(String header:headers){
                     Cell cell = new Cell().add(header);
                     cell.setBorder(Border.NO_BORDER);
-                    if(fontColor != null){
-                        cell.setFontColor(fontColor);
-                    }
-                    if(headerBgColor != null){
-                        cell.setBackgroundColor(headerBgColor);
-                    }
+                    if(fontSize != null) cell.setFontSize(fontSize);
+                    if(fontColor != null) cell.setFontColor(fontColor);
+                    if(headerBgColor != null) cell.setBackgroundColor(headerBgColor);
                     table.addHeaderCell(cell);
                 }
             }
@@ -48,15 +45,10 @@ public class TableRenderStrategy implements ComponenRenderStrategy<PLTableBlock>
                 for (int j = 0;j < data[i].length;j++){
                     Cell cell = new Cell().add(data[i][j]);
                     cell.setBorder(Border.NO_BORDER);
-                    if(fontColor != null){
-                        cell.setFontColor(fontColor);
-                    }
-                    if(zebraStripes != null && zebraStripes.length == 2){
-                        cell.setBackgroundColor(zebraStripes[i % 2]);
-                    }
-                    else if(cellBgColor != null){
-                        cell.setBackgroundColor(cellBgColor);
-                    }
+                    if(fontSize != null) cell.setFontSize(fontSize);
+                    if(fontColor != null) cell.setFontColor(fontColor);
+                    if(zebraStripes != null && zebraStripes.length == 2) cell.setBackgroundColor(zebraStripes[i % 2]);
+                    else if(cellBgColor != null) cell.setBackgroundColor(cellBgColor);
                     table.addCell(cell);
                 }
             }
