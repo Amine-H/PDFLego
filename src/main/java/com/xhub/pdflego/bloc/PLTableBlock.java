@@ -1,7 +1,7 @@
 package com.xhub.pdflego.bloc;
 
 import com.xhub.pdflego.core.Component;
-import com.itextpdf.kernel.color.Color;
+import com.xhub.pdflego.core.vo.ColorVO;
 
 /**
  * Created by amine
@@ -12,10 +12,9 @@ public class PLTableBlock extends Component{
     }
     private String[] header;
     private String[][] data;
-    private Color fontColor;
-    private Color headerBackgroundColor;
-    private Color cellBackgroundColor;
-    private Color[] zebraSripes;
+    private ColorVO headerBackgroundColor;
+    private ColorVO cellBackgroundColor;
+    private ColorVO[] zebraSripes;
 
     public String[] getHeader() {
         return header;
@@ -33,35 +32,27 @@ public class PLTableBlock extends Component{
         this.data = data;
     }
 
-    public Color getFontColor() {
-        return fontColor;
-    }
-
-    public void setFontColor(Color fontColor) {
-        this.fontColor = fontColor;
-    }
-
-    public Color getHeaderBackgroundColor() {
+    public ColorVO getHeaderBackgroundColor() {
         return headerBackgroundColor;
     }
 
-    public void setHeaderBackgroundColor(Color headerBackgroundColor) {
+    public void setHeaderBackgroundColor(ColorVO headerBackgroundColor) {
         this.headerBackgroundColor = headerBackgroundColor;
     }
 
-    public Color getCellBackgroundColor() {
+    public ColorVO getCellBackgroundColor() {
         return cellBackgroundColor;
     }
 
-    public void setCellBackgroundColor(Color cellBackgroundColor) {
+    public void setCellBackgroundColor(ColorVO cellBackgroundColor) {
         this.cellBackgroundColor = cellBackgroundColor;
     }
 
-    public Color[] getZebraSripes() {
+    public ColorVO[] getZebraSripes() {
         return zebraSripes;
     }
 
-    public void setZebraSripes(Color[] zebraSripes) {
-        this.zebraSripes = zebraSripes;
+    public void setZebraSripes(ColorVO[] zebraSripes) {
+        if(zebraSripes != null && zebraSripes.length == 2) this.zebraSripes = zebraSripes;
     }
 }

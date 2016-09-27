@@ -1,5 +1,6 @@
 package com.xhub.pdflego.core;
 import com.itextpdf.io.image.ImageData;
+import com.xhub.pdflego.core.vo.ColorVO;
 import com.xhub.pdflego.exception.ComponentOverflowException;
 import org.apache.log4j.Logger;
 import com.itextpdf.kernel.color.Color;
@@ -14,10 +15,10 @@ public abstract class Component {
 	private Integer width;
 	private Integer height;
 	private Component parent;
-	private Color backgroundColor;
+	private ColorVO backgroundColor;
 	private ImageData backgroundImage;
 	private Float fontSize;
-	private Color fontColor;
+	private ColorVO fontColor;
 	private Logger logger = Logger.getLogger(Component.class);
 
 	public Component(Component parent){
@@ -81,11 +82,11 @@ public abstract class Component {
 		this.parent = parent;
 	}
 
-	public Color getBackgroundColor() {
+	public ColorVO getBackgroundColor() {
 		return backgroundColor;
 	}
 
-	public void setBackgroundColor(Color backgroundColor) {
+	public void setBackgroundColor(ColorVO backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
 
@@ -105,11 +106,11 @@ public abstract class Component {
 		this.fontSize = fontSize;
 	}
 
-	public Color getFontColor() {
+	public ColorVO getFontColor() {
 		return fontColor;
 	}
 
-	public void setFontColor(Color fontColor) {
+	public void setFontColor(ColorVO fontColor) {
 		this.fontColor = fontColor;
 	}
 }

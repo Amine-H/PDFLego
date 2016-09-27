@@ -4,9 +4,11 @@ import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.border.Border;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.UnitValue;
+import com.itextpdf.kernel.color.Color;
 import com.xhub.pdflego.bloc.PLTableBlock;
+import com.xhub.pdflego.core.vo.ColorVO;
 import org.apache.log4j.Logger;
+import java.util.Arrays;
 
 /**
  * Created by amine
@@ -19,11 +21,12 @@ public class TableRenderStrategy implements ComponenRenderStrategy<PLTableBlock>
         String[][] data = component.getData();
         int width = component.getWidth();
         int height = component.getHeight();
-        com.itextpdf.kernel.color.Color headerBgColor = component.getHeaderBackgroundColor();
-        com.itextpdf.kernel.color.Color cellBgColor = component.getCellBackgroundColor();
-        com.itextpdf.kernel.color.Color fontColor = component.getFontColor();
+        Color headerBgColor = ColorVO.create(component.getHeaderBackgroundColor(), Color.class);
+        Color cellBgColor = ColorVO.create(component.getCellBackgroundColor(), Color.class);
+        Color fontColor = ColorVO.create(component.getFontColor(), Color.class);
         Float fontSize = component.getFontSize();
-        com.itextpdf.kernel.color.Color[] zebraStripes = component.getZebraSripes();
+        Color[] zebraStripes = Arrays.stream(component.getZebraSripes()).map(color -> ColorVO.create(color, Color.class)).toArray(Color[]::new);
+
         if(headerBgColor == null) headerBgColor = cellBgColor;
 
         if(data != null && data.length > 0){

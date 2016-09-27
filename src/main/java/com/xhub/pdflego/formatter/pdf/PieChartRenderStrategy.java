@@ -1,8 +1,10 @@
 package com.xhub.pdflego.formatter.pdf;
 
 import java.awt.Color;
+import java.util.Arrays;
 import com.itextpdf.layout.Canvas;
 import com.xhub.pdflego.bloc.PLPieChartBlock;
+import com.xhub.pdflego.core.vo.ColorVO;
 import com.xhub.pdflego.formatter.PlotRenderHelper;
 import de.erichseifert.gral.data.DataTable;
 import de.erichseifert.gral.plots.PiePlot;
@@ -21,8 +23,8 @@ public class PieChartRenderStrategy extends PlotRenderHelper<PLPieChartBlock> im
         Float gap = component.getGap();
         Float innerRadius = component.getInnerRadius();
         Float outerRadius = component.getOuterRadius();
-        Color pieColor = component.getPieColor();
-        Color[] colors = component.getColors();
+        Color pieColor = ColorVO.create(component.getPieColor(), Color.class);
+        Color[] colors = (Color[])Arrays.stream(component.getColors()).map(color -> ColorVO.create(color, Color.class)).toArray();
         if(dataset != null){
             DataTable dataTable = new DataTable(Integer.class);
             String title = component.getTitle();

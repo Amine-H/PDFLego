@@ -5,6 +5,8 @@ import com.itextpdf.layout.element.Div;
 import com.xhub.pdflego.bloc.PLImageBlock;
 import com.xhub.pdflego.core.Component;
 import com.itextpdf.layout.Canvas;
+import com.itextpdf.kernel.color.Color;
+import com.xhub.pdflego.core.vo.ColorVO;
 
 /**
  * Created by amine
@@ -12,7 +14,7 @@ import com.itextpdf.layout.Canvas;
 public class DefaultComponentRenderStrategy implements ComponenRenderStrategy<Component>{
     @Override
     public void render(Canvas componentCanvas, Component component) {
-        com.itextpdf.kernel.color.Color backgroundColor = component.getBackgroundColor();
+        Color backgroundColor = ColorVO.create(component.getBackgroundColor(), Color.class);
         ImageData backgroundImage = component.getBackgroundImage();
         if(backgroundImage != null){
             PLImageBlock image = PLImageBlock.create(component);

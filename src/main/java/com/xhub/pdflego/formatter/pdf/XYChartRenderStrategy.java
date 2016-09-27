@@ -2,6 +2,7 @@ package com.xhub.pdflego.formatter.pdf;
 
 import com.itextpdf.layout.Canvas;
 import com.xhub.pdflego.bloc.PLXYChartBlock;
+import com.xhub.pdflego.core.vo.ColorVO;
 import com.xhub.pdflego.formatter.PlotRenderHelper;
 import de.erichseifert.gral.data.DataSeries;
 import de.erichseifert.gral.plots.XYPlot;
@@ -11,6 +12,7 @@ import de.erichseifert.gral.plots.points.DefaultPointRenderer2D;
 import de.erichseifert.gral.plots.points.PointRenderer;
 import org.apache.log4j.Logger;
 import java.awt.*;
+import java.util.Arrays;
 
 /**
  * Created by amine
@@ -24,9 +26,9 @@ public class XYChartRenderStrategy extends PlotRenderHelper<PLXYChartBlock> impl
         plot.getAxisRenderer(XYPlot.AXIS_Y).setIntersection(-Double.MAX_VALUE);
         plot.getTitle().setText(component.getTitle());
         plot.setLegendVisible(component.isLegendVisible());
-        Color backgroundColor = component.getPlotBackgroundColor();
-        Color titleColor = component.getTitleColor();
-        Color[] seriesColor = component.getSeriesColor();
+        Color backgroundColor = ColorVO.create(component.getPlotBackgroundColor(), Color.class);
+        Color titleColor = ColorVO.create(component.getTitleColor(), Color.class);
+        Color[] seriesColor = (Color[])Arrays.stream(component.getSeriesColor()).map(color -> ColorVO.create(color, Color.class)).toArray();
         if(backgroundColor != null){
             plot.setBackground(backgroundColor);
             plot.getPlotArea().setBackground(backgroundColor);
@@ -41,8 +43,9 @@ public class XYChartRenderStrategy extends PlotRenderHelper<PLXYChartBlock> impl
                     PointRenderer ptRenderer = new DefaultPointRenderer2D();
                     LineRenderer lineRenderer = new DefaultLineRenderer2D();
                     DataSeries[] data = component.getData();
-                    ptRenderer.setColor(component.getSeriesColor()[i]);
-                    lineRenderer.setColor(component.getSeriesColor()[i]);
+                    Color lineColor = ColorVO.create(component.getSeriesColor()[i], Color.class);
+                    ptRenderer.setColor(lineColor);
+                    lineRenderer.setColor(lineColor);
                     plot.setPointRenderers(data[i], ptRenderer);
                     plot.setLineRenderers(data[i], lineRenderer);
                 }catch(NullPointerException e){
