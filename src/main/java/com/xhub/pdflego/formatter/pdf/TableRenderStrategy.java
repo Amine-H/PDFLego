@@ -25,7 +25,7 @@ public class TableRenderStrategy implements ComponenRenderStrategy<PLTableBlock>
         Color cellBgColor = ColorVO.create(component.getCellBackgroundColor(), Color.class);
         Color fontColor = ColorVO.create(component.getFontColor(), Color.class);
         Float fontSize = component.getFontSize();
-        Color[] zebraStripes = Arrays.stream(component.getZebraSripes()).map(color -> ColorVO.create(color, Color.class)).toArray(Color[]::new);
+        Color[] zebraStripes = (component.getZebraSripes() == null)?null:Arrays.stream(component.getZebraSripes()).map(color -> ColorVO.create(color, Color.class)).toArray(Color[]::new);
 
         if(headerBgColor == null) headerBgColor = cellBgColor;
 

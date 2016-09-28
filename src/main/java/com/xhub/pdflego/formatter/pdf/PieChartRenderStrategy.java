@@ -24,7 +24,7 @@ public class PieChartRenderStrategy extends PlotRenderHelper<PLPieChartBlock> im
         Float innerRadius = component.getInnerRadius();
         Float outerRadius = component.getOuterRadius();
         Color pieColor = ColorVO.create(component.getPieColor(), Color.class);
-        Color[] colors = (Color[])Arrays.stream(component.getColors()).map(color -> ColorVO.create(color, Color.class)).toArray();
+        Color[] colors = (component.getColors() == null)?null:Arrays.stream(component.getColors()).map(color -> ColorVO.create(color, Color.class)).toArray(Color[]::new);
         if(dataset != null){
             DataTable dataTable = new DataTable(Integer.class);
             String title = component.getTitle();

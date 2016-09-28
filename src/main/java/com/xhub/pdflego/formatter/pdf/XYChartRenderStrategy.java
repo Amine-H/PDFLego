@@ -28,7 +28,7 @@ public class XYChartRenderStrategy extends PlotRenderHelper<PLXYChartBlock> impl
         plot.setLegendVisible(component.isLegendVisible());
         Color backgroundColor = ColorVO.create(component.getPlotBackgroundColor(), Color.class);
         Color titleColor = ColorVO.create(component.getTitleColor(), Color.class);
-        Color[] seriesColor = (Color[])Arrays.stream(component.getSeriesColor()).map(color -> ColorVO.create(color, Color.class)).toArray();
+        Color[] seriesColor = (component.getSeriesColor() == null)?null:Arrays.stream(component.getSeriesColor()).map(color -> ColorVO.create(color, Color.class)).toArray(Color[]::new);
         if(backgroundColor != null){
             plot.setBackground(backgroundColor);
             plot.getPlotArea().setBackground(backgroundColor);
