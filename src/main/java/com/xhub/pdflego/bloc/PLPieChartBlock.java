@@ -46,7 +46,7 @@ public class PLPieChartBlock extends Component{
         return colors;
     }
 
-    public void setColors(ColorVO[] colors) {
+    public void setColors(ColorVO... colors) {
         this.colors = colors;
     }
 
