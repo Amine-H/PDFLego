@@ -1,9 +1,9 @@
 package com.xhub.pdflego.core;
+
 import com.itextpdf.io.image.ImageData;
 import com.xhub.pdflego.core.vo.ColorVO;
 import com.xhub.pdflego.exception.ComponentOverflowException;
 import org.apache.log4j.Logger;
-import com.itextpdf.kernel.color.Color;
 
 /**
  * Component has the attributes of a rectangle
