@@ -1,5 +1,8 @@
 package com.xhub.pdflego.core.vo;
 
+import org.apache.log4j.Logger;
+import sun.awt.resources.awt;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -10,6 +13,7 @@ public class ColorVO{
     private Integer r;
     private Integer g;
     private Integer b;
+    private Logger logger = Logger.getLogger(ColorVO.class);
 
     public ColorVO(){}
 
@@ -17,6 +21,17 @@ public class ColorVO{
         this.r = r;
         this.g = g;
         this.b = b;
+    }
+
+    public ColorVO(String hex){
+        try{
+            java.awt.Color color = java.awt.Color.decode(hex);
+            this.r = color.getRed();
+            this.g = color.getGreen();
+            this.b = color.getBlue();
+        }catch(NumberFormatException e){
+            logger.error("couldn't load color data using hex value", e);
+        }
     }
 
     public static <T> T create(ColorVO vo, Class c){
