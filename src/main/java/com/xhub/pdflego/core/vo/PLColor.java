@@ -1,29 +1,24 @@
 package com.xhub.pdflego.core.vo;
 
 import org.apache.log4j.Logger;
-import sun.awt.resources.awt;
-
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  * Created by amine
  */
-@XmlRootElement
-public class ColorVO{
+public class PLColor {
     private Integer r;
     private Integer g;
     private Integer b;
-    private Logger logger = Logger.getLogger(ColorVO.class);
+    private Logger logger = Logger.getLogger(PLColor.class);
 
-    public ColorVO(){}
+    public PLColor(){}
 
-    public ColorVO(Integer r, Integer g, Integer b){
+    public PLColor(Integer r, Integer g, Integer b){
         this.r = r;
         this.g = g;
         this.b = b;
     }
 
-    public ColorVO(String hex){
+    public PLColor(String hex){
         try{
             java.awt.Color color = java.awt.Color.decode(hex);
             this.r = color.getRed();
@@ -34,7 +29,7 @@ public class ColorVO{
         }
     }
 
-    public static <T> T create(ColorVO vo, Class c){
+    public static <T> T create(PLColor vo, Class c){
         T result = null;
         try{
             if(c.equals(java.awt.Color.class)){

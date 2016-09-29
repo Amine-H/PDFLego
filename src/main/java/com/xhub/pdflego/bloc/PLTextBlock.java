@@ -9,7 +9,6 @@ import com.xhub.pdflego.core.Component;
 public class PLTextBlock extends Component{
 	private String text;
 	private Float lineSpacing;
-	private PdfFont font;
 
 	public PLTextBlock(Component parent){
 		super(parent);
@@ -23,14 +22,6 @@ public class PLTextBlock extends Component{
 
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	public PdfFont getFont() {
-		return font;
-	}
-
-	public void setFont(PdfFont font) {
-		this.font = font;
 	}
 
 	public Float getLineSpacing() {

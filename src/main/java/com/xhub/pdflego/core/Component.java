@@ -1,7 +1,8 @@
 package com.xhub.pdflego.core;
 
-import com.itextpdf.io.image.ImageData;
-import com.xhub.pdflego.core.vo.ColorVO;
+import com.xhub.pdflego.core.vo.PLColor;
+import com.xhub.pdflego.core.vo.PLFont;
+import com.xhub.pdflego.core.vo.PLImage;
 import com.xhub.pdflego.exception.ComponentOverflowException;
 import org.apache.log4j.Logger;
 
@@ -15,10 +16,11 @@ public abstract class Component {
 	private Integer width;
 	private Integer height;
 	private Component parent;
-	private ColorVO backgroundColor;
-	private ImageData backgroundImage;
+	private PLColor backgroundColor;
+	private PLImage backgroundImage;
+	private PLFont font;
 	private Float fontSize;
-	private ColorVO fontColor;
+	private PLColor fontColor;
 	private Logger logger = Logger.getLogger(Component.class);
 
 	public Component(Component parent){
@@ -82,19 +84,19 @@ public abstract class Component {
 		this.parent = parent;
 	}
 
-	public ColorVO getBackgroundColor() {
+	public PLColor getBackgroundColor() {
 		return backgroundColor;
 	}
 
-	public void setBackgroundColor(ColorVO backgroundColor) {
+	public void setBackgroundColor(PLColor backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
 
-	public ImageData getBackgroundImage() {
+	public PLImage getBackgroundImage() {
 		return backgroundImage;
 	}
 
-	public void setBackgroundImage(ImageData backgroundImage) {
+	public void setBackgroundImage(PLImage backgroundImage) {
 		this.backgroundImage = backgroundImage;
 	}
 
@@ -106,11 +108,19 @@ public abstract class Component {
 		this.fontSize = fontSize;
 	}
 
-	public ColorVO getFontColor() {
+	public PLColor getFontColor() {
 		return fontColor;
 	}
 
-	public void setFontColor(ColorVO fontColor) {
+	public void setFontColor(PLColor fontColor) {
 		this.fontColor = fontColor;
+	}
+
+	public PLFont getFont() {
+		return font;
+	}
+
+	public void setFont(PLFont font) {
+		this.font = font;
 	}
 }

@@ -2,6 +2,8 @@ package com.xhub.pdflego.formatter;
 
 import com.xhub.pdflego.bloc.PLImageBlock;
 import com.xhub.pdflego.core.Component;
+import com.xhub.pdflego.core.vo.PLFile;
+import com.xhub.pdflego.core.vo.PLImage;
 import com.xhub.pdflego.formatter.pdf.ImageRenderStrategy;
 import de.erichseifert.gral.graphics.DrawingContext;
 import de.erichseifert.gral.io.plots.DrawableWriter;
@@ -32,7 +34,7 @@ public class PlotRenderHelper<T extends Component> {
             wr.write(plot, stream, width, height);
             stream.flush();
             PLImageBlock image = PLImageBlock.create(component);
-            image.setImage(stream.toByteArray());
+            image.setImage(new PLImage(PLFile.createInstance(stream.toByteArray())));
             ImageRenderStrategy imageRenderer = new ImageRenderStrategy();
             imageRenderer.render(componentCanvas, image);
             stream.close();

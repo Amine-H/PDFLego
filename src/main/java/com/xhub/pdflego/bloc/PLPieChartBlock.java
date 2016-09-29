@@ -1,7 +1,7 @@
 package com.xhub.pdflego.bloc;
 
 import com.xhub.pdflego.core.Component;
-import com.xhub.pdflego.core.vo.ColorVO;
+import com.xhub.pdflego.core.vo.PLColor;
 
 /**
  * Created by amine
@@ -12,8 +12,8 @@ public class PLPieChartBlock extends Component{
     }
     private String title;
     private Integer[] data;
-    private ColorVO pieColor;
-    private ColorVO[] colors;
+    private PLColor pieColor;
+    private PLColor[] colors;
     private Float gap;
     private Float innerRadius;
     private Float outerRadius;
@@ -34,19 +34,19 @@ public class PLPieChartBlock extends Component{
         this.data = data;
     }
 
-    public ColorVO getPieColor() {
+    public PLColor getPieColor() {
         return pieColor;
     }
 
-    public void setPieColor(ColorVO pieColor) {
+    public void setPieColor(PLColor pieColor) {
         this.pieColor = pieColor;
     }
 
-    public ColorVO[] getColors() {
+    public PLColor[] getColors() {
         return colors;
     }
 
-    public void setColors(ColorVO... colors) {
+    public void setColors(PLColor... colors) {
         this.colors = colors;
     }
 

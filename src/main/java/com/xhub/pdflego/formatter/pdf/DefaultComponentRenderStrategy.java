@@ -1,12 +1,12 @@
 package com.xhub.pdflego.formatter.pdf;
 
-import com.itextpdf.io.image.ImageData;
 import com.itextpdf.layout.element.Div;
 import com.xhub.pdflego.bloc.PLImageBlock;
 import com.xhub.pdflego.core.Component;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.kernel.color.Color;
-import com.xhub.pdflego.core.vo.ColorVO;
+import com.xhub.pdflego.core.vo.PLColor;
+import com.xhub.pdflego.core.vo.PLImage;
 
 /**
  * Created by amine
@@ -14,8 +14,8 @@ import com.xhub.pdflego.core.vo.ColorVO;
 public class DefaultComponentRenderStrategy implements ComponenRenderStrategy<Component>{
     @Override
     public void render(Canvas componentCanvas, Component component) {
-        Color backgroundColor = ColorVO.create(component.getBackgroundColor(), Color.class);
-        ImageData backgroundImage = component.getBackgroundImage();
+        Color backgroundColor = PLColor.create(component.getBackgroundColor(), Color.class);
+        PLImage backgroundImage = component.getBackgroundImage();
         if(backgroundImage != null){
             PLImageBlock image = PLImageBlock.create(component);
             image.setImage(backgroundImage);

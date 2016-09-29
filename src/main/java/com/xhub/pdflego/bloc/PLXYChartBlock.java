@@ -1,15 +1,15 @@
 package com.xhub.pdflego.bloc;
 
 import com.xhub.pdflego.core.Component;
-import com.xhub.pdflego.core.vo.ColorVO;
+import com.xhub.pdflego.core.vo.PLColor;
 import de.erichseifert.gral.data.DataSeries;
 
 public class PLXYChartBlock extends Component {
 	private String title;
 	private DataSeries[] data;
-	private ColorVO[] seriesColor;
-	private ColorVO  plotBackgroundColor;
-	private ColorVO titleColor;
+	private PLColor[] seriesColor;
+	private PLColor plotBackgroundColor;
+	private PLColor titleColor;
 	private boolean legendVisible = true;
 
 	public PLXYChartBlock(Component parent){
@@ -32,27 +32,27 @@ public class PLXYChartBlock extends Component {
 		this.data = data;
 	}
 
-	public ColorVO[] getSeriesColor() {
+	public PLColor[] getSeriesColor() {
 		return seriesColor;
 	}
 
-	public void setSeriesColor(ColorVO... seriesColor) {
+	public void setSeriesColor(PLColor... seriesColor) {
 		this.seriesColor = seriesColor;
 	}
 
-	public ColorVO getPlotBackgroundColor() {
+	public PLColor getPlotBackgroundColor() {
 		return plotBackgroundColor;
 	}
 
-	public void setPlotBackgroundColor(ColorVO plotBackgroundColor) {
+	public void setPlotBackgroundColor(PLColor plotBackgroundColor) {
 		this.plotBackgroundColor = plotBackgroundColor;
 	}
 
-	public ColorVO getTitleColor() {
+	public PLColor getTitleColor() {
 		return titleColor;
 	}
 
-	public void setTitleColor(ColorVO titleColor) {
+	public void setTitleColor(PLColor titleColor) {
 		this.titleColor = titleColor;
 	}
 
