@@ -8,6 +8,7 @@ import com.itextpdf.kernel.font.PdfFontFactory;
  */
 public class PLFont{
     private PLFile file;
+    private String encoding = "Identity-H";
 
     public PLFont(){
 
@@ -21,10 +22,18 @@ public class PLFont{
         T result = null;
         try{
             if(c.equals(PdfFont.class)){
-                result = (T) PdfFontFactory.createFont(vo.getFile().getData(),"Identity-H");
+                result = (T) PdfFontFactory.createFont(vo.getFile().getData(), vo.getEncoding());
             }
         }catch(Exception e){}
         return result;
+    }
+
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
     }
 
     public PLFile getFile() {
