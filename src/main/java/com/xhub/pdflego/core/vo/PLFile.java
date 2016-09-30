@@ -7,6 +7,7 @@ import sun.nio.ch.IOUtil;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import static org.apache.commons.io.IOUtils.toByteArray;
 
@@ -51,8 +52,10 @@ public class PLFile {
     public void setPath(String path) {
         try {
             //load data from remote resource
-            URL url = new URL(path);
-            InputStream stream = url.openStream();
+            URLConnection connection = new URL(path).openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+            connection.connect();
+            InputStream stream = connection.getInputStream();
             this.data = IOUtils.toByteArray(stream);
         }catch(MalformedURLException e){
             //load data from drive
