@@ -57,11 +57,13 @@ public class PLFile {
             connection.connect();
             InputStream stream = connection.getInputStream();
             this.data = IOUtils.toByteArray(stream);
+            stream.close();
         }catch(MalformedURLException e){
             //load data from drive
             try{
                 FileInputStream stream = new FileInputStream(path);
                 this.data = IOUtils.toByteArray(stream);
+                stream.close();
             }catch(FileNotFoundException e1){
                 logger.error("could not find file " + path, e);
             }catch(IOException e2){
