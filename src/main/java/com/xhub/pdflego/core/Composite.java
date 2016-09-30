@@ -12,6 +12,10 @@ public abstract class Composite extends Component{
 	private List<Component> childComponents = new ArrayList<>();
 	private Logger logger = Logger.getLogger(Composite.class);
 
+	public Composite(){
+		this(null);
+	}
+
 	public Composite(Component parent){
 		super(parent);
 	}
