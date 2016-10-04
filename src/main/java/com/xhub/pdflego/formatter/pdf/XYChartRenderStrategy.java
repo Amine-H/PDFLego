@@ -43,6 +43,6 @@ public class XYChartRenderStrategy extends PlotRenderHelper<PLXYChartBlock> impl
                 }
             }
         }
-        drawPlot(plot, component, componentCanvas);
+        super.drawPlot(plot, component, componentCanvas);
     }
 }

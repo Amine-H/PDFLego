@@ -41,7 +41,7 @@ public class PieChartRenderStrategy extends PlotRenderHelper<PLPieChartBlock> im
                 IndexedColors indexedColors = new IndexedColors(pieColor, colors);
                 pointRenderer.setColor(indexedColors);
             }
-            drawPlot(plot, component, componentCanvas);
+            super.drawPlot(plot, component, componentCanvas);
         }else{
             logger.warn("no data found for " + component + ", ignoring Block");
         }
