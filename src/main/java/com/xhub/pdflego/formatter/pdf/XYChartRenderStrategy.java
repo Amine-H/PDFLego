@@ -26,8 +26,8 @@ public class XYChartRenderStrategy extends PlotRenderHelper<PLXYChartBlock> impl
         plot.getAxisRenderer(XYPlot.AXIS_Y).setIntersection(-Double.MAX_VALUE);
         plot.getTitle().setText(component.getTitle());
         plot.setLegendVisible(component.isLegendVisible());
-        Color backgroundColor = PLColor.create(component.getPlotBackgroundColor(), Color.class);
-        Color titleColor = PLColor.create(component.getTitleColor(), Color.class);
+        Color backgroundColor = PLColor.create(component.getBackgroundColor(), Color.class);
+        Color titleColor = PLColor.create(component.getFontColor(), Color.class);
         Color[] seriesColor = (component.getSeriesColor() == null)?null:Arrays.stream(component.getSeriesColor()).map(color -> PLColor.create(color, Color.class)).toArray(Color[]::new);
         if(backgroundColor != null){
             plot.setBackground(backgroundColor);
