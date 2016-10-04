@@ -8,6 +8,7 @@ import com.xhub.pdflego.core.vo.PLImage;
 import com.xhub.pdflego.formatter.pdf.ImageRenderStrategy;
 import de.erichseifert.gral.graphics.Drawable;
 import de.erichseifert.gral.graphics.DrawingContext;
+import de.erichseifert.gral.graphics.Location;
 import de.erichseifert.gral.io.plots.DrawableWriter;
 import de.erichseifert.gral.io.plots.DrawableWriterFactory;
 import de.erichseifert.gral.plots.AbstractPlot;
@@ -26,10 +27,18 @@ public class PlotRenderHelper<T extends AbstractPlotBlock> {
 
     public void preparePlot(AbstractPlot plot, T component){
         String title = component.getTitle();
-        if(title != null) plot.getTitle().setText(title);
-        plot.setLegendVisible(component.isLegendVisible());
+        String legendLocationString = component.getLegendLocation();
+        Location legendLocation = null;
         Color backgroundColor = PLColor.create(component.getBackgroundColor(), Color.class);
         Color titleColor = PLColor.create(component.getFontColor(), Color.class);
+        try{
+            legendLocation = (legendLocationString != null)? Location.valueOf(legendLocationString) : Location.CENTER;
+        }catch(IllegalArgumentException e){
+            logger.warn("location " + legendLocationString + " not supported", e);
+        }
+        boolean legendVisible = component.isLegendVisible();
+        if(title != null) plot.getTitle().setText(title);
+        if(legendVisible) plot.setLegendVisible(component.isLegendVisible());
         if(backgroundColor != null){
             plot.setBackground(backgroundColor);
             plot.getPlotArea().setBackground(backgroundColor);
@@ -38,6 +47,7 @@ public class PlotRenderHelper<T extends AbstractPlotBlock> {
         if(titleColor != null){
             plot.getTitle().setColor(titleColor);
         }
+        plot.setLegendLocation(legendLocation);
     }
 
     public void drawPlot(Drawable plot, T component, Canvas componentCanvas){
