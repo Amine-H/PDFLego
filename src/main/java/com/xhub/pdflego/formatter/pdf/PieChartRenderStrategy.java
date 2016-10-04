@@ -19,6 +19,9 @@ public class PieChartRenderStrategy extends PlotRenderHelper<PLPieChartBlock> im
     private Logger logger = Logger.getLogger(PieChartRenderStrategy.class);
     @Override
     public void render(Canvas componentCanvas, PLPieChartBlock component) {
+        DataTable dataTable = new DataTable(Integer.class);
+        PiePlot plot = new PiePlot(dataTable);
+        super.preparePlot(plot, component);
         Integer[] dataset = component.getData();
         Float gap = component.getGap();
         Float innerRadius = component.getInnerRadius();
@@ -26,15 +29,11 @@ public class PieChartRenderStrategy extends PlotRenderHelper<PLPieChartBlock> im
         Color pieColor = PLColor.create(component.getPieColor(), Color.class);
         Color[] colors = (component.getColors() == null)?null:Arrays.stream(component.getColors()).map(color -> PLColor.create(color, Color.class)).toArray(Color[]::new);
         if(dataset != null){
-            DataTable dataTable = new DataTable(Integer.class);
-            String title = component.getTitle();
             for(Integer row:dataset){
                 dataTable.add(row);
             }
-            PiePlot plot = new PiePlot(dataTable);
             PieSliceRenderer pointRenderer = (PieSliceRenderer) plot.getPointRenderer(dataTable);
 
-            if(title != null) plot.getTitle().setText(title);
             if(gap != null) pointRenderer.setGap(gap);
             if(innerRadius != null) pointRenderer.setInnerRadius(innerRadius);
             if(outerRadius != null) pointRenderer.setOuterRadius(outerRadius);

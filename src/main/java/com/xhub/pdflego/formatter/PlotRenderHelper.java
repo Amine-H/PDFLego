@@ -1,7 +1,8 @@
 package com.xhub.pdflego.formatter;
 
+import com.xhub.pdflego.bloc.AbstractPlotBlock;
 import com.xhub.pdflego.bloc.PLImageBlock;
-import com.xhub.pdflego.core.Component;
+import com.xhub.pdflego.core.vo.PLColor;
 import com.xhub.pdflego.core.vo.PLFile;
 import com.xhub.pdflego.core.vo.PLImage;
 import com.xhub.pdflego.formatter.pdf.ImageRenderStrategy;
@@ -19,8 +20,25 @@ import java.io.IOException;
 /**
  * Created by amine
  */
-public class PlotRenderHelper<T extends Component> {
+public class PlotRenderHelper<T extends AbstractPlotBlock> {
     private Logger logger = Logger.getLogger(PlotRenderHelper.class);
+
+    public void preparePlot(AbstractPlot plot, T component){
+        String title = component.getTitle();
+        if(title != null) plot.getTitle().setText(title);
+        plot.setLegendVisible(component.isLegendVisible());
+        Color backgroundColor = PLColor.create(component.getBackgroundColor(), Color.class);
+        Color titleColor = PLColor.create(component.getFontColor(), Color.class);
+        if(backgroundColor != null){
+            plot.setBackground(backgroundColor);
+            plot.getPlotArea().setBackground(backgroundColor);
+            plot.getTitle().setBackground(backgroundColor);
+        }
+        if(titleColor != null){
+            plot.getTitle().setColor(titleColor);
+        }
+    }
+
     public void drawPlot(AbstractPlot plot, T component, Canvas componentCanvas){
         int width = component.getWidth();
         int height = component.getHeight();

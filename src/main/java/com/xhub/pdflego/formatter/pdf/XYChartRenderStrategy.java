@@ -22,21 +22,11 @@ public class XYChartRenderStrategy extends PlotRenderHelper<PLXYChartBlock> impl
     @Override
     public void render(Canvas componentCanvas, PLXYChartBlock component) {
         XYPlot plot = new XYPlot(component.getData());
+        super.preparePlot(plot, component);
         plot.getAxisRenderer(XYPlot.AXIS_X).setIntersection(-Double.MAX_VALUE);
         plot.getAxisRenderer(XYPlot.AXIS_Y).setIntersection(-Double.MAX_VALUE);
-        plot.getTitle().setText(component.getTitle());
-        plot.setLegendVisible(component.isLegendVisible());
-        Color backgroundColor = PLColor.create(component.getBackgroundColor(), Color.class);
-        Color titleColor = PLColor.create(component.getFontColor(), Color.class);
+
         Color[] seriesColor = (component.getSeriesColor() == null)?null:Arrays.stream(component.getSeriesColor()).map(color -> PLColor.create(color, Color.class)).toArray(Color[]::new);
-        if(backgroundColor != null){
-            plot.setBackground(backgroundColor);
-            plot.getPlotArea().setBackground(backgroundColor);
-            plot.getTitle().setBackground(backgroundColor);
-        }
-        if(titleColor != null){
-            plot.getTitle().setColor(titleColor);
-        }
         if(seriesColor != null){
             for(int i = 0;i < component.getSeriesColor().length;i++){
                 try{
