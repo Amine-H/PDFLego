@@ -6,6 +6,7 @@ import com.xhub.pdflego.core.vo.PLColor;
 import com.xhub.pdflego.core.vo.PLFile;
 import com.xhub.pdflego.core.vo.PLImage;
 import com.xhub.pdflego.formatter.pdf.ImageRenderStrategy;
+import de.erichseifert.gral.graphics.Drawable;
 import de.erichseifert.gral.graphics.DrawingContext;
 import de.erichseifert.gral.io.plots.DrawableWriter;
 import de.erichseifert.gral.io.plots.DrawableWriterFactory;
@@ -39,7 +40,7 @@ public class PlotRenderHelper<T extends AbstractPlotBlock> {
         }
     }
 
-    public void drawPlot(AbstractPlot plot, T component, Canvas componentCanvas){
+    public void drawPlot(Drawable plot, T component, Canvas componentCanvas){
         int width = component.getWidth();
         int height = component.getHeight();
         BufferedImage bImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
