@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class PLBarPlotBlock extends AbstractPlotBlock{
     private List<PLBarPlotData> plots;
-    private double barWidth;
+    private Double barWidth;
     private float borderStroke;
     private PLColor borderColor;
     private boolean valueVisible;
@@ -29,11 +29,11 @@ public class PLBarPlotBlock extends AbstractPlotBlock{
         this.plots = plots;
     }
 
-    public double getBarWidth() {
+    public Double getBarWidth() {
         return barWidth;
     }
 
-    public void setBarWidth(double barWidth) {
+    public void setBarWidth(Double barWidth) {
         this.barWidth = barWidth;
     }
 

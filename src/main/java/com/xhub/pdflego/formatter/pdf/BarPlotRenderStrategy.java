@@ -21,14 +21,16 @@ public class BarPlotRenderStrategy extends PlotRenderHelper<PLBarPlotBlock> impl
     @Override
     public void render(Canvas componentCanvas, PLBarPlotBlock component) {
         List<PLBarPlotData> plots = component.getPlots();
-        double barWidth = component.getBarWidth();
-        if(plots != null & plots.size() > 0){
+        Double barWidth = component.getBarWidth();
+        Double xMin = Double.valueOf(0);
+        if(plots != null && plots.size() > 0){
             BarPlot plot = new BarPlot();
             super.preparePlot(plot, component);
 
             for(PLBarPlotData p:plots){
-                DataTable dataTable = new DataTable(double.class, double.class, String.class);
+                DataTable dataTable = new DataTable(Double.class, Double.class, String.class);
                 for(PLBarPlotPoint point:p.getData()){
+                    if(point.getxData() < xMin) xMin = point.getxData();
                     dataTable.add(point.getxData(), point.getyData(), point.getLabel());
                 }
                 plot.add(dataTable);
@@ -39,7 +41,13 @@ public class BarPlotRenderStrategy extends PlotRenderHelper<PLBarPlotBlock> impl
                 pointRenderer.setBorderColor(PLColor.create(component.getBorderColor(), Color.class));
                 pointRenderer.setValueVisible(component.isValueVisible());
             }
-            if(barWidth > 0) plot.setBarWidth(barWidth);
+            if(barWidth != null) plot.setBarWidth(barWidth);
+            plot.getAxisRenderer(BarPlot.AXIS_X).setTickAlignment(0.0);
+            plot.getAxisRenderer(BarPlot.AXIS_X).setTickSpacing(0.8);
+            plot.getAxisRenderer(BarPlot.AXIS_X).setMinorTicksVisible(false);
+            plot.getAxisRenderer(BarPlot.AXIS_Y).setTickAlignment(0.0);
+            plot.getAxisRenderer(BarPlot.AXIS_Y).setMinorTicksVisible(false);
+            plot.getAxisRenderer(BarPlot.AXIS_Y).setIntersection(xMin);
 
             super.drawPlot(plot, component, componentCanvas);
         }else{
