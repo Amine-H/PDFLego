@@ -31,8 +31,8 @@ public class HorizontalLayout extends Composite{
             Integer componentWidth = width / count;
             for(Integer i = 0;i < count;i++){
                 Component component = childComponents.get(i);
-                component.setX(i * componentWidth);
                 component.setWidth(componentWidth);
+                component.setX(i * componentWidth);
             }
         }
     }

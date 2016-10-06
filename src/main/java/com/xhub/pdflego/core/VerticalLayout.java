@@ -31,8 +31,8 @@ public class VerticalLayout extends Composite{
             Integer componentHeight = height / count;
             for(Integer i = 0;i < count;i++){
                 Component component = childComponents.get(i);
-                component.setY(i * componentHeight);
                 component.setHeight(componentHeight);
+                component.setY(i * componentHeight);
             }
         }
     }
