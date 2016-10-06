@@ -69,28 +69,30 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
 
     @Override
     public void renderBlock(Component component) {
-        logger.info(component + " started rendering");
-        Rectangle rectangle = new Rectangle(component.getX(), calculateY(component), component.getWidth(), component.getHeight());
-        this.currentBlock = new Canvas(this.currentPageCanvas, this.pdfDocument, rectangle);
+        if(component != null){
+            logger.info(component + " started rendering");
+            Rectangle rectangle = new Rectangle(component.getX(), calculateY(component), component.getWidth(), component.getHeight());
+            this.currentBlock = new Canvas(this.currentPageCanvas, this.pdfDocument, rectangle);
 
-        this.renderStrategies.forEach((c, strategy) -> {
-            if(c.isInstance(component)){
-                try{
-                    ComponenRenderStrategy strategyInstance = (ComponenRenderStrategy)strategy.getConstructor().newInstance();
-                    strategyInstance.render(currentBlock, component);
-                }catch(NoSuchMethodException e){
-                    this.logger.error("Could not find default Constructor for " + strategy, e);
-                } catch (IllegalAccessException e) {
-                    this.logger.error("Wong accessor was set to the strategy " + strategy, e);
-                } catch (InstantiationException e) {
-                    this.logger.error("Could not instantiate " + strategy, e);
-                } catch (InvocationTargetException e) {
-                    this.logger.error("Exception thrown by invoked method of " + strategy, e);
+            this.renderStrategies.forEach((c, strategy) -> {
+                if(c.isInstance(component)){
+                    try{
+                        ComponenRenderStrategy strategyInstance = (ComponenRenderStrategy)strategy.getConstructor().newInstance();
+                        strategyInstance.render(currentBlock, component);
+                    }catch(NoSuchMethodException e){
+                        this.logger.error("Could not find default Constructor for " + strategy, e);
+                    } catch (IllegalAccessException e) {
+                        this.logger.error("Wong accessor was set to the strategy " + strategy, e);
+                    } catch (InstantiationException e) {
+                        this.logger.error("Could not instantiate " + strategy, e);
+                    } catch (InvocationTargetException e) {
+                        this.logger.error("Exception thrown by invoked method of " + strategy, e);
+                    }
                 }
-            }
-        });
-        this.currentBlock = null;
-        logger.info(component + " finished rendering");
+            });
+            this.currentBlock = null;
+            logger.info(component + " finished rendering");
+        }
     }
 
 
