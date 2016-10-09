@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
  * @author Amine Hakkou
  */
 public abstract class Composite extends Component{
-	private List<Component> childComponents = new ArrayList<>();
+	protected List<Component> childComponents = new ArrayList<>();
 	private Logger logger = Logger.getLogger(Composite.class);
 
 	public Composite(){
