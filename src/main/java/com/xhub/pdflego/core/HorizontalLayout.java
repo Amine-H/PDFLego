@@ -9,11 +9,15 @@ public class HorizontalLayout extends Composite{
 
     public HorizontalLayout(Component parent){
         super(parent);
-        if(parent != null) this.setWidth(parent.getWidth());
+        if(parent != null){
+            this.setHeight(parent.getHeight());
+            this.setWidth(parent.getWidth());
+        }
     }
 
     @Override
     public void postAdd(Component component) {
+        component.setHeight(this.getHeight());
         this.calculateDimensions();
     }
 

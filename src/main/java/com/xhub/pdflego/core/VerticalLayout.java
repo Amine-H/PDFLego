@@ -9,11 +9,15 @@ public class VerticalLayout extends Composite{
 
     public VerticalLayout(Component parent){
         super(parent);
-        if(parent != null) this.setHeight(parent.getHeight());
+        if(parent != null){
+            this.setHeight(parent.getHeight());
+            this.setWidth(parent.getWidth());
+        }
     }
 
     @Override
     public void postAdd(Component component) {
+        component.setWidth(this.getWidth());
         this.calculateDimensions();
     }
 
