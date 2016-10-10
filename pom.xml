@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.xhub.pdflego</groupId>
     <artifactId>pdflego</artifactId>
-    <version>0.1.2</version>
+    <version>0.2.0</version>
     <developers>
         <developer>
             <name>Amine Hakkou</name>
