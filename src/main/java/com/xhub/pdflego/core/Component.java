@@ -3,7 +3,6 @@ package com.xhub.pdflego.core;
 import com.xhub.pdflego.core.vo.PLColor;
 import com.xhub.pdflego.core.vo.PLFont;
 import com.xhub.pdflego.core.vo.PLImage;
-import com.xhub.pdflego.exception.ComponentOverflowException;
 import org.apache.log4j.Logger;
 
 /**
@@ -36,10 +35,6 @@ public abstract class Component {
 	}
 
 	public void setX(Integer x) {
-		if((this.parent != null) && (x + this.width > parent.getX() + parent.getWidth())){
-			ComponentOverflowException e = new ComponentOverflowException();
-			this.logger.error(e.getMessage(), e);
-		}
 		this.x = x;
 	}
 
@@ -52,11 +47,6 @@ public abstract class Component {
 	}
 
 	public void setY(Integer y) {
-		if((this.parent != null) &&
-			(y + this.height > parent.getY() + parent.getHeight())){
-			ComponentOverflowException e = new ComponentOverflowException();
-			this.logger.error(e.getMessage(), e);
-		}
 		this.y = y;
 	}
 
