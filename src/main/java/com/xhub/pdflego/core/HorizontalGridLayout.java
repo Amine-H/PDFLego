@@ -46,7 +46,7 @@ public class HorizontalGridLayout extends Composite{
                 Float sizePercent = this.componentsSize.get(i);
                 Component component = super.childComponents.get(i);
                 component.setWidth(Math.round((sizePercent*this.getWidth())/100));
-                Integer offset = super.childComponents.subList(i, components).stream().map(Component::getWidth).mapToInt(w -> w).sum();
+                Integer offset = super.childComponents.subList(i, components).stream().filter(c -> c != component).map(Component::getWidth).mapToInt(w -> w).sum();
                 component.setX(offset);
             }
         }else{

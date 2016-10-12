@@ -43,7 +43,7 @@ public class VerticalGridLayout extends Composite{
                 Float sizePercent = this.componentsSize.get(i);
                 Component component = super.childComponents.get(i);
                 component.setHeight(Math.round((sizePercent*this.getHeight())/100));
-                Integer offset = super.childComponents.subList(i, components).stream().map(Component::getHeight).mapToInt(h -> h).sum();
+                Integer offset = super.childComponents.subList(i, components).stream().filter(c -> c != component).map(Component::getHeight).mapToInt(h -> h).sum();
                 component.setY(offset);
             }
         }else{
