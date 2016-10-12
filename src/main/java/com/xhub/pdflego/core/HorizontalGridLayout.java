@@ -27,7 +27,7 @@ public class HorizontalGridLayout extends Composite{
     }
 
     @Override
-    public void postAdd(Component component) {
+    protected void postAdd(Component component) {
         component.setHeight(this.getHeight());
         this.calculateDimensions();
     }
@@ -57,7 +57,7 @@ public class HorizontalGridLayout extends Composite{
     }
 
     @Override
-    public void preRemove(Component component) {
+    protected void preRemove(Component component) {
         this.calculateDimensions();
     }
 }

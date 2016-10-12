@@ -32,8 +32,8 @@ public abstract class Composite extends Component{
 		return this.childComponents;
 	}
 	
-	public abstract void postAdd(Component component);
-	public abstract void preRemove(Component component);
+	protected abstract void postAdd(Component component);
+	protected abstract void preRemove(Component component);
 
 	public void remove(Component component){
 		preRemove(component);

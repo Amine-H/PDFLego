@@ -16,7 +16,7 @@ public class VerticalLayout extends Composite{
     }
 
     @Override
-    public void postAdd(Component component) {
+    protected void postAdd(Component component) {
         component.setWidth(this.getWidth());
         this.calculateDimensions();
     }
@@ -42,7 +42,7 @@ public class VerticalLayout extends Composite{
     }
 
     @Override
-    public void preRemove(Component component) {
+    protected void preRemove(Component component) {
         this.calculateDimensions();
     }
 }
