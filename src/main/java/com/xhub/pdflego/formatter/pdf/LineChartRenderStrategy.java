@@ -50,7 +50,7 @@ public class LineChartRenderStrategy extends PlotRenderHelper<PLLineChartBlock> 
                     try{
                         PointRenderer ptRenderer = new DefaultPointRenderer2D();
                         LineRenderer lineRenderer = new DefaultLineRenderer2D();
-                        Color lineColor = PLColor.create(component.getSeriesColor()[i], Color.class);
+                        Color lineColor = seriesColor[i];
                         ptRenderer.setColor(lineColor);
                         lineRenderer.setColor(lineColor);
                         plot.setPointRenderers(dataSeries[i], ptRenderer);
