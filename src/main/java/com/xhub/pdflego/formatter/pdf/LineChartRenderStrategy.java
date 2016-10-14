@@ -44,9 +44,9 @@ public class LineChartRenderStrategy extends PlotRenderHelper<PLLineChartBlock> 
             plot.getAxisRenderer(XYPlot.AXIS_X).setIntersection(-Double.MAX_VALUE);
             plot.getAxisRenderer(XYPlot.AXIS_Y).setIntersection(-Double.MAX_VALUE);
 
-            Color[] seriesColor = (component.getSeriesColor() == null)?null:Arrays.stream(component.getSeriesColor()).map(color -> PLColor.create(color, Color.class)).toArray(Color[]::new);
+            Color[] seriesColor = (component.getData().getY() == null)?null:component.getData().getY().stream().map(point -> PLColor.create(point.getColor(), Color.class)).toArray(Color[]::new);
             if(seriesColor != null){
-                for(int i = 0;i < component.getSeriesColor().length;i++){
+                for(int i = 0;i < seriesColor.length;i++){
                     try{
                         PointRenderer ptRenderer = new DefaultPointRenderer2D();
                         LineRenderer lineRenderer = new DefaultLineRenderer2D();

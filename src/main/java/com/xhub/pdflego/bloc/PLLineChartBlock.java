@@ -7,7 +7,6 @@ import de.erichseifert.gral.data.DataSeries;
 
 public class PLLineChartBlock extends AbstractPlotBlock {
 	private PLLinePlotData data;
-	private PLColor[] seriesColor;
 
 	public PLLineChartBlock(Component parent){
 		super(parent);
@@ -19,13 +18,5 @@ public class PLLineChartBlock extends AbstractPlotBlock {
 
 	public void setData(PLLinePlotData data) {
 		this.data = data;
-	}
-
-	public PLColor[] getSeriesColor() {
-		return seriesColor;
-	}
-
-	public void setSeriesColor(PLColor... seriesColor) {
-		this.seriesColor = seriesColor;
 	}
 }
