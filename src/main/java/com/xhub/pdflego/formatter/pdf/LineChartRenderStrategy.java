@@ -61,6 +61,8 @@ public class LineChartRenderStrategy extends PlotRenderHelper<PLLineChartBlock> 
                 }
             }
             super.drawPlot(plot, component, componentCanvas);
+        }else{
+            logger.warn("data not set, not rendering " + component);
         }
     }
 }
