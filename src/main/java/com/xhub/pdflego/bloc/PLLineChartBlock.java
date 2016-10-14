@@ -1,22 +1,23 @@
 package com.xhub.pdflego.bloc;
 
+import com.xhub.pdflego.bloc.data.lineplot.PLLinePlotData;
 import com.xhub.pdflego.core.Component;
 import com.xhub.pdflego.core.vo.PLColor;
 import de.erichseifert.gral.data.DataSeries;
 
-public class PLXYChartBlock extends AbstractPlotBlock {
-	private DataSeries[] data;
+public class PLLineChartBlock extends AbstractPlotBlock {
+	private PLLinePlotData data;
 	private PLColor[] seriesColor;
 
-	public PLXYChartBlock(Component parent){
+	public PLLineChartBlock(Component parent){
 		super(parent);
 	}
 
-	public DataSeries[] getData() {
+	public PLLinePlotData getData() {
 		return data;
 	}
 
-	public void setData(DataSeries... data) {
+	public void setData(PLLinePlotData data) {
 		this.data = data;
 	}
 

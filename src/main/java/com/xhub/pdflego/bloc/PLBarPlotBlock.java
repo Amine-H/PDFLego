@@ -1,7 +1,6 @@
 package com.xhub.pdflego.bloc;
 
 import com.xhub.pdflego.bloc.data.barplot.PLBarPlotData;
-import com.xhub.pdflego.bloc.data.barplot.PLBarPlotPoint;
 import com.xhub.pdflego.core.Component;
 import com.xhub.pdflego.core.vo.PLColor;
 

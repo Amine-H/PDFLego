@@ -51,7 +51,7 @@ public class PDFRenderer extends DocumentRenderer<ByteArrayOutputStream> {
             put(PLImageBlock.class, ImageRenderStrategy.class);
             put(PLTextBlock.class, TextRenderStrategy.class);
             put(PLTableBlock.class, TableRenderStrategy.class);
-            put(PLXYChartBlock.class, XYChartRenderStrategy.class);
+            put(PLLineChartBlock.class, LineChartRenderStrategy.class);
             put(PLPieChartBlock.class, PieChartRenderStrategy.class);
             put(PLBarPlotBlock.class, BarPlotRenderStrategy.class);
         }};
