@@ -55,7 +55,7 @@ public class LineChartRenderStrategy extends PlotRenderHelper<PLLineChartBlock> 
                         lineRenderer.setColor(lineColor);
                         plot.setPointRenderers(dataSeries[i], ptRenderer);
                         plot.setLineRenderers(dataSeries[i], lineRenderer);
-                    }catch(NullPointerException e){
+                    }catch(Exception e){
                         logger.error("Error caused when trying to set color for a series", e);
                     }
                 }
