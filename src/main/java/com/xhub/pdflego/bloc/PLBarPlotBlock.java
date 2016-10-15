@@ -17,6 +17,10 @@ public class PLBarPlotBlock extends AbstractPlotBlock{
     private PLColor borderColor;
     private boolean valueVisible;
 
+    public PLBarPlotBlock(){
+        super();
+    }
+
     public PLBarPlotBlock(Component parent){
         super(parent);
     }

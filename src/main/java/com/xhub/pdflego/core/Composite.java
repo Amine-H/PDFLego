@@ -3,7 +3,7 @@ package com.xhub.pdflego.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.log4j.Logger;
 
 /**
@@ -11,8 +11,8 @@ import org.apache.log4j.Logger;
  * @author Amine Hakkou
  */
 public abstract class Composite extends Component{
-	@JsonProperty("children")
-	protected List<Component> childComponents = new ArrayList<>();
+	@JsonIgnore
+	protected List<Component> children = new ArrayList<>();
 	private Logger logger = Logger.getLogger(Composite.class);
 
 	public Composite(){
@@ -24,18 +24,18 @@ public abstract class Composite extends Component{
 	}
 
 	public void add(Component component){
-		if(childComponents.add(component)){
+		if(children.add(component)){
 			component.setParent(this);
 			this.logger.info(this + " added " + component + " as child component");
 			postAdd(component);
 		}
 	}
 
-	public List<Component> getChildComponents(){
-		return this.childComponents;
+	public List<Component> getChildren(){
+		return this.children;
 	}
-	public void setChildComponents(List<Component> components){
-		this.childComponents = components;
+	public void setChildren(List<Component> components){
+		this.children = components;
 	}
 	
 	protected abstract void postAdd(Component component);
@@ -43,7 +43,7 @@ public abstract class Composite extends Component{
 
 	public void remove(Component component){
 		preRemove(component);
-		if(childComponents.remove(component)){
+		if(children.remove(component)){
 			this.logger.info(this + " removed " + component + " from its child component");
 		}
 	}

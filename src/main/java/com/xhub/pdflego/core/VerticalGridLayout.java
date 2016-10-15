@@ -1,5 +1,7 @@
 package com.xhub.pdflego.core;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,7 +11,12 @@ import java.util.stream.Collectors;
  */
 public class VerticalGridLayout extends Composite{
     private String className = "VerticalGridLayout";
-    private List<Float> componentsSize = new ArrayList<>();
+    @JsonProperty("childrenSize")
+    private List<Float> childrenSize = new ArrayList<>();
+
+    public VerticalGridLayout(){
+
+    }
 
     public VerticalGridLayout(Component parent){
         super(parent);
@@ -17,6 +24,14 @@ public class VerticalGridLayout extends Composite{
             this.setHeight(parent.getHeight());
             this.setWidth(parent.getWidth());
         }
+    }
+
+    public List<Float> getChildrenSize() {
+        return childrenSize;
+    }
+
+    public void setChildrenSize(List<Float> childrenSize) {
+        this.childrenSize = childrenSize;
     }
 
     @Override
@@ -30,7 +45,7 @@ public class VerticalGridLayout extends Composite{
     }
 
     public void add(Component component, Float percentage){
-        componentsSize.add(percentage);
+        childrenSize.add(percentage);
         super.add(component);
     }
 
@@ -47,23 +62,32 @@ public class VerticalGridLayout extends Composite{
     }
 
     private void calculateDimensions(){
-        int components = super.childComponents.size();
-        int componentsSize = this.componentsSize.size();
+        int components = super.children.size();
+        int componentsSize = this.childrenSize.size();
         if(components == componentsSize){
             for(int i = 0;i < components;i++){//calculate height
-                Float sizePercent = this.componentsSize.get(i);
-                Component component = super.childComponents.get(i);
+                Float sizePercent = this.childrenSize.get(i);
+                Component component = super.children.get(i);
                 component.setHeight(Math.round((sizePercent*this.getHeight())/100));
+                component.setWidth(this.getWidth());
             }
             for(int i = 0;i < components;i++){//calculate Y
-                Component component = super.childComponents.get(i);
-                Integer offset = super.childComponents.subList(0, i).stream().filter(c -> c != component).map(Component::getHeight).mapToInt(h -> h).sum();
+                Component component = super.children.get(i);
+                Integer offset = super.children.subList(0, i).stream().filter(c -> c != component).map(Component::getHeight).mapToInt(h -> h).sum();
                 component.setY(offset);
             }
         }else{
             //redistribute the size
-            this.componentsSize = (new ArrayList<>(components)).stream().map(gridSize -> (100f/components)).collect(Collectors.toList());
+            this.childrenSize = (new ArrayList<>(components)).stream().map(gridSize -> (100f/components)).collect(Collectors.toList());
             this.calculateDimensions();
+        }
+    }
+
+    @Override
+    public void validate() {
+        this.calculateDimensions();
+        for(Component child:children){
+            child.validate();
         }
     }
 

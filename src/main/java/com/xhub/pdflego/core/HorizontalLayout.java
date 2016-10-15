@@ -40,7 +40,7 @@ public class HorizontalLayout extends Composite{
 
     private void calculateDimensions(){
         Integer width = this.getWidth();
-        List<Component> childComponents = this.getChildComponents();
+        List<Component> childComponents = this.getChildren();
         Integer count = (childComponents != null)? childComponents.size() : 0;
         if(count > 0){
             Integer componentWidth = width / count;
@@ -49,6 +49,14 @@ public class HorizontalLayout extends Composite{
                 component.setWidth(componentWidth);
                 component.setX(i * componentWidth);
             }
+        }
+    }
+
+    @Override
+    public void validate() {
+        this.calculateDimensions();
+        for(Component child:children){
+            child.validate();
         }
     }
 

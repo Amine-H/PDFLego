@@ -15,6 +15,10 @@ public class PLPieChartBlock extends AbstractPlotBlock{
     private Float innerRadius;
     private Float outerRadius;
 
+    public PLPieChartBlock(){
+
+    }
+
     public PLPieChartBlock(Component parent){
         super(parent);
     }

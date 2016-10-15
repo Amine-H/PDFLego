@@ -11,6 +11,10 @@ import com.xhub.pdflego.core.vo.PLImage;
 public class PLImageBlock extends Component{
 	private String className = "PLImageBlock";
 	private PLImage image;
+
+	public PLImageBlock(){
+		super();
+	}
 	
 	public PLImageBlock(Component parent){
 		super(parent);

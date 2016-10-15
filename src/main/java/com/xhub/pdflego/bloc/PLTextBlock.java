@@ -11,6 +11,10 @@ public class PLTextBlock extends Component{
 	private String text;
 	private Float lineSpacing;
 
+	public PLTextBlock(){
+		super();
+	}
+
 	public PLTextBlock(Component parent){
 		super(parent);
 		this.setFontSize(14f);

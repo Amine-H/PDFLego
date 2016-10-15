@@ -10,6 +10,10 @@ public abstract class AbstractPlotBlock extends Component{
     private boolean legendVisible;
     private String legendLocation;
 
+    public AbstractPlotBlock(){
+        super();
+    }
+
     public AbstractPlotBlock(Component parent){
         super(parent);
     }

@@ -5,11 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xhub.pdflego.bloc.PLTextBlock;
 import com.xhub.pdflego.core.*;
 import org.apache.log4j.Logger;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * Created by amine
@@ -43,10 +39,10 @@ public class DocumentBuilder {
     private Component buildComponent(JsonNode jsonNode){
         String className = jsonNode.get("className").textValue();
         Component result = null;
-        if(componentBuildMap.containsKey(className)){
-            result = buildBlock(jsonNode);
-        }else if(compositeTypes.contains(className)){
+        if(compositeTypes.contains(className)){
             result = buildComposite(jsonNode);
+        }else if(componentBuildMap.containsKey(className)){
+            result = buildBlock(jsonNode);
         }
         return result;
     }
@@ -67,9 +63,14 @@ public class DocumentBuilder {
 
     private Component buildComposite(JsonNode jsonNode){
         Composite result = (Composite) buildBlock(jsonNode);
-        List<Component> children = jsonNode.findValues("children").stream().map(this::buildComponent).collect(Collectors.toList());
+        JsonNode childrenNode = jsonNode.get("children");
+        List<Component> children = new ArrayList<>();
+        for(JsonNode node:childrenNode){
+            children.add(this.buildComponent(node));
+        }
         if(result != null){
-            result.setChildComponents(children);
+            children.stream().forEach(component -> component.setParent(result));
+            result.setChildren(children);
         }
         return result;
     }

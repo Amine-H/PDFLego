@@ -40,7 +40,7 @@ public class VerticalLayout extends Composite{
 
     private void calculateDimensions(){
         Integer height = this.getHeight();
-        List<Component> childComponents = this.getChildComponents();
+        List<Component> childComponents = this.getChildren();
         Integer count = (childComponents != null)? childComponents.size() : 0;
         if(count > 0){
             Integer componentHeight = height / count;
@@ -49,6 +49,14 @@ public class VerticalLayout extends Composite{
                 component.setHeight(componentHeight);
                 component.setY(i * componentHeight);
             }
+        }
+    }
+
+    @Override
+    public void validate() {
+        this.calculateDimensions();
+        for(Component child:children){
+            child.validate();
         }
     }
 

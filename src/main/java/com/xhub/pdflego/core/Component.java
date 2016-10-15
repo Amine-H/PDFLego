@@ -1,16 +1,13 @@
 package com.xhub.pdflego.core;
 
-import com.xhub.pdflego.core.vo.PLClass;
-import com.xhub.pdflego.core.vo.PLColor;
-import com.xhub.pdflego.core.vo.PLFont;
-import com.xhub.pdflego.core.vo.PLImage;
+import com.xhub.pdflego.core.vo.*;
 import org.apache.log4j.Logger;
 
 /**
  * Component has the attributes of a rectangle
  * @author Amine Hakkou
  */
-public abstract class Component implements PLClass{
+public abstract class Component implements PLClass, Renderable{
 	private Integer x = 0;
 	private Integer y = 0;
 	private Integer width;
@@ -22,6 +19,10 @@ public abstract class Component implements PLClass{
 	private Float fontSize;
 	private PLColor fontColor;
 	private Logger logger = Logger.getLogger(Component.class);
+
+	public Component(){
+
+	}
 
 	public Component(Component parent){
 		this.parent = parent;

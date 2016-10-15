@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  */
 public class HorizontalGridLayout extends Composite{
     private String className = "HorizontalGridLayout";
-    private List<Float> componentsSize = new ArrayList<>();
+    private List<Float> childrenSize = new ArrayList<>();
 
     public HorizontalGridLayout(Component parent){
         super(parent);
@@ -17,6 +17,15 @@ public class HorizontalGridLayout extends Composite{
             this.setHeight(parent.getHeight());
             this.setWidth(parent.getWidth());
         }
+    }
+
+    public List<Float> getChildrenSize() {
+        return childrenSize;
+    }
+
+    public void setChildrenSize(List<Float> childrenSize) {
+        this.childrenSize = childrenSize;
+        this.calculateDimensions();
     }
 
     @Override
@@ -30,7 +39,7 @@ public class HorizontalGridLayout extends Composite{
     }
 
     public void add(Component component, Float percentage){
-        componentsSize.add(percentage);
+        childrenSize.add(percentage);
         super.add(component);
     }
 
@@ -47,23 +56,32 @@ public class HorizontalGridLayout extends Composite{
     }
 
     private void calculateDimensions(){
-        int components = super.childComponents.size();
-        int componentsSize = this.componentsSize.size();
+        int components = super.children.size();
+        int componentsSize = this.childrenSize.size();
         if(components == componentsSize){
             for(int i = 0;i < components;i++){//calculate width
-                Float sizePercent = this.componentsSize.get(i);
-                Component component = super.childComponents.get(i);
+                Float sizePercent = this.childrenSize.get(i);
+                Component component = super.children.get(i);
                 component.setWidth(Math.round((sizePercent*this.getWidth())/100));
+                component.setHeight(this.getHeight());
             }
             for(int i = 0;i < components;i++){// calculate X
-                Component component = super.childComponents.get(i);
-                Integer offset = super.childComponents.subList(0, i).stream().filter(c -> c != component).map(Component::getWidth).mapToInt(w -> w).sum();
+                Component component = super.children.get(i);
+                Integer offset = super.children.subList(0, i).stream().filter(c -> c != component).map(Component::getWidth).mapToInt(w -> w).sum();
                 component.setX(offset);
             }
         }else{
             //redistribute the size
-            this.componentsSize = (new ArrayList<>(components)).stream().map(gridSize -> (100f/components)).collect(Collectors.toList());
+            this.childrenSize = (new ArrayList<>(components)).stream().map(gridSize -> (100f/components)).collect(Collectors.toList());
             this.calculateDimensions();
+        }
+    }
+
+    @Override
+    public void validate() {
+        this.calculateDimensions();
+        for(Component child:this.children){
+            child.validate();
         }
     }
 

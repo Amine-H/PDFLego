@@ -9,6 +9,10 @@ public class PLLineChartBlock extends AbstractPlotBlock {
 	private String className = "PLLineChartBlock";
 	private PLLinePlotData data;
 
+	public PLLineChartBlock(){
+		super();
+	}
+
 	public PLLineChartBlock(Component parent){
 		super(parent);
 	}
