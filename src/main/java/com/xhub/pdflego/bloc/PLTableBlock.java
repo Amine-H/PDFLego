@@ -7,14 +7,26 @@ import com.xhub.pdflego.core.vo.PLColor;
  * Created by amine
  */
 public class PLTableBlock extends Component{
-    public PLTableBlock(Component parent){
-        super(parent);
-    }
+    private String className = "PLTableBlock";
     private String[] header;
     private String[][] data;
     private PLColor headerBackgroundColor;
     private PLColor cellBackgroundColor;
     private PLColor[] zebraSripes;
+
+    public PLTableBlock(Component parent){
+        super(parent);
+    }
+
+    @Override
+    public String getClassName() {
+        return className;
+    }
+
+    @Override
+    public void setClassName(String className) {
+        this.className = className;
+    }
 
     public String[] getHeader() {
         return header;

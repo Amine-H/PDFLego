@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
  * Created by amine
  */
 public class HorizontalGridLayout extends Composite{
+    private String className = "HorizontalGridLayout";
     private List<Float> componentsSize = new ArrayList<>();
 
     public HorizontalGridLayout(Component parent){
@@ -16,6 +17,16 @@ public class HorizontalGridLayout extends Composite{
             this.setHeight(parent.getHeight());
             this.setWidth(parent.getWidth());
         }
+    }
+
+    @Override
+    public String getClassName() {
+        return className;
+    }
+
+    @Override
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public void add(Component component, Float percentage){

@@ -2,6 +2,8 @@ package com.xhub.pdflego.core;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.log4j.Logger;
 
 /**
@@ -9,6 +11,7 @@ import org.apache.log4j.Logger;
  * @author Amine Hakkou
  */
 public abstract class Composite extends Component{
+	@JsonProperty("children")
 	protected List<Component> childComponents = new ArrayList<>();
 	private Logger logger = Logger.getLogger(Composite.class);
 
@@ -30,6 +33,9 @@ public abstract class Composite extends Component{
 
 	public List<Component> getChildComponents(){
 		return this.childComponents;
+	}
+	public void setChildComponents(List<Component> components){
+		this.childComponents = components;
 	}
 	
 	protected abstract void postAdd(Component component);

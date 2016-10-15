@@ -6,6 +6,7 @@ import java.util.List;
  * Created by amine
  */
 public class HorizontalLayout extends Composite{
+    private String className = "HorizontalLayout";
 
     public HorizontalLayout(Component parent){
         super(parent);
@@ -13,6 +14,16 @@ public class HorizontalLayout extends Composite{
             this.setHeight(parent.getHeight());
             this.setWidth(parent.getWidth());
         }
+    }
+
+    @Override
+    public String getClassName() {
+        return className;
+    }
+
+    @Override
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     @Override

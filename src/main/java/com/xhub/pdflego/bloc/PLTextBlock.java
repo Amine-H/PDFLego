@@ -1,5 +1,5 @@
 package com.xhub.pdflego.bloc;
-import com.itextpdf.kernel.font.PdfFont;
+
 import com.xhub.pdflego.core.Component;
 
 /**
@@ -7,6 +7,7 @@ import com.xhub.pdflego.core.Component;
  * @author Amine Hakkou
  */
 public class PLTextBlock extends Component{
+	private String className = "PLTextBlock";
 	private String text;
 	private Float lineSpacing;
 
@@ -14,6 +15,16 @@ public class PLTextBlock extends Component{
 		super(parent);
 		this.setFontSize(14f);
 		this.lineSpacing =  0.5f;
+	}
+
+	@Override
+	public String getClassName() {
+		return className;
+	}
+
+	@Override
+	public void setClassName(String className) {
+		this.className = className;
 	}
 
 	public String getText() {

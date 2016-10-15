@@ -1,5 +1,6 @@
 package com.xhub.pdflego.core;
 
+import com.xhub.pdflego.core.vo.PLClass;
 import com.xhub.pdflego.core.vo.PLColor;
 import com.xhub.pdflego.core.vo.PLFont;
 import com.xhub.pdflego.core.vo.PLImage;
@@ -9,7 +10,7 @@ import org.apache.log4j.Logger;
  * Component has the attributes of a rectangle
  * @author Amine Hakkou
  */
-public abstract class Component {
+public abstract class Component implements PLClass{
 	private Integer x = 0;
 	private Integer y = 0;
 	private Integer width;

@@ -10,6 +10,7 @@ import java.util.List;
  * Created by amine
  */
 public class PLBarPlotBlock extends AbstractPlotBlock{
+    private String className = "PLBarPlotBlock";
     private List<PLBarPlotData> plots;
     private Double barWidth;
     private float borderStroke;
@@ -18,6 +19,16 @@ public class PLBarPlotBlock extends AbstractPlotBlock{
 
     public PLBarPlotBlock(Component parent){
         super(parent);
+    }
+
+    @Override
+    public String getClassName() {
+        return className;
+    }
+
+    @Override
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public List<PLBarPlotData> getPlots() {

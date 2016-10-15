@@ -7,15 +7,27 @@ import com.xhub.pdflego.core.vo.PLColor;
  * Created by amine
  */
 public class PLPieChartBlock extends AbstractPlotBlock{
-    public PLPieChartBlock(Component parent){
-        super(parent);
-    }
+    private String className = "PLPieChartBlock";
     private Integer[] data;
     private PLColor pieColor;
     private PLColor[] colors;
     private Float gap;
     private Float innerRadius;
     private Float outerRadius;
+
+    public PLPieChartBlock(Component parent){
+        super(parent);
+    }
+
+    @Override
+    public String getClassName() {
+        return className;
+    }
+
+    @Override
+    public void setClassName(String className) {
+        this.className = className;
+    }
 
     public Integer[] getData() {
         return data;
