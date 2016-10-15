@@ -5,7 +5,6 @@ import java.util.Arrays;
 import com.itextpdf.layout.Canvas;
 import com.xhub.pdflego.bloc.PLPieChartBlock;
 import com.xhub.pdflego.core.vo.PLColor;
-import com.xhub.pdflego.formatter.PlotRenderHelper;
 import de.erichseifert.gral.data.DataTable;
 import de.erichseifert.gral.plots.PiePlot;
 import de.erichseifert.gral.plots.PiePlot.PieSliceRenderer;

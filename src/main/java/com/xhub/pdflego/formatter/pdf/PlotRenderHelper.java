@@ -1,11 +1,10 @@
-package com.xhub.pdflego.formatter;
+package com.xhub.pdflego.formatter.pdf;
 
 import com.xhub.pdflego.bloc.AbstractPlotBlock;
 import com.xhub.pdflego.bloc.PLImageBlock;
 import com.xhub.pdflego.core.vo.PLColor;
 import com.xhub.pdflego.core.vo.PLFile;
 import com.xhub.pdflego.core.vo.PLImage;
-import com.xhub.pdflego.formatter.pdf.ImageRenderStrategy;
 import de.erichseifert.gral.graphics.Drawable;
 import de.erichseifert.gral.graphics.DrawingContext;
 import de.erichseifert.gral.graphics.Location;

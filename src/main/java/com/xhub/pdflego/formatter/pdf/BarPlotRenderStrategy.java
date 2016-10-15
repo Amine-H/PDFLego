@@ -5,7 +5,6 @@ import com.xhub.pdflego.bloc.PLBarPlotBlock;
 import com.xhub.pdflego.bloc.data.barplot.PLBarPlotData;
 import com.xhub.pdflego.bloc.data.barplot.PLBarPlotPoint;
 import com.xhub.pdflego.core.vo.PLColor;
-import com.xhub.pdflego.formatter.PlotRenderHelper;
 import de.erichseifert.gral.data.DataTable;
 import de.erichseifert.gral.plots.BarPlot;
 import org.apache.log4j.Logger;

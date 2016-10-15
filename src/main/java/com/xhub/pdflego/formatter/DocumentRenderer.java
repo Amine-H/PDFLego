@@ -1,6 +1,5 @@
 package com.xhub.pdflego.formatter;
 
-import com.xhub.pdflego.bloc.*;
 import com.xhub.pdflego.core.Component;
 import com.xhub.pdflego.core.Composite;
 import org.apache.log4j.Logger;

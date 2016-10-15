@@ -4,7 +4,6 @@ import com.itextpdf.layout.Canvas;
 import com.xhub.pdflego.bloc.PLLineChartBlock;
 import com.xhub.pdflego.bloc.data.lineplot.PLLinePlotData;
 import com.xhub.pdflego.core.vo.PLColor;
-import com.xhub.pdflego.formatter.PlotRenderHelper;
 import de.erichseifert.gral.data.DataSeries;
 import de.erichseifert.gral.data.DataTable;
 import de.erichseifert.gral.plots.XYPlot;
@@ -14,9 +13,7 @@ import de.erichseifert.gral.plots.points.DefaultPointRenderer2D;
 import de.erichseifert.gral.plots.points.PointRenderer;
 import org.apache.log4j.Logger;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
