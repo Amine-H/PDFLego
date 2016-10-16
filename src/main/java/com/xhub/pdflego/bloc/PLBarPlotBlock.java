@@ -18,7 +18,7 @@ public class PLBarPlotBlock extends AbstractPlotBlock{
     private boolean valueVisible;
 
     public PLBarPlotBlock(){
-        super();
+        this(null);
     }
 
     public PLBarPlotBlock(Component parent){

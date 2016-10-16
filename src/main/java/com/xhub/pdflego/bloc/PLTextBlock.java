@@ -12,7 +12,7 @@ public class PLTextBlock extends Component{
 	private Float lineSpacing;
 
 	public PLTextBlock(){
-		super();
+		this(null);
 	}
 
 	public PLTextBlock(Component parent){

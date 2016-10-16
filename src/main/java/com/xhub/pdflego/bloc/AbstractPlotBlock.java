@@ -11,7 +11,7 @@ public abstract class AbstractPlotBlock extends Component{
     private String legendLocation;
 
     public AbstractPlotBlock(){
-        super();
+        this(null);
     }
 
     public AbstractPlotBlock(Component parent){

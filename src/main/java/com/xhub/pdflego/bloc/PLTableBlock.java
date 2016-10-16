@@ -15,7 +15,7 @@ public class PLTableBlock extends Component{
     private PLColor[] zebraSripes;
 
     public PLTableBlock(){
-        super();
+        this(null);
     }
 
     public PLTableBlock(Component parent){

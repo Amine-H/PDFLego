@@ -13,7 +13,7 @@ public class PLImageBlock extends Component{
 	private PLImage image;
 
 	public PLImageBlock(){
-		super();
+		this(null);
 	}
 	
 	public PLImageBlock(Component parent){

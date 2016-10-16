@@ -10,7 +10,7 @@ public class PLLineChartBlock extends AbstractPlotBlock {
 	private PLLinePlotData data;
 
 	public PLLineChartBlock(){
-		super();
+		this(null);
 	}
 
 	public PLLineChartBlock(Component parent){
